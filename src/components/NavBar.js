@@ -12,7 +12,7 @@ export default function NavBar(props) {
   const textColorClass = props.mode === "dark" ? "text-white" : "text-dark";
 
   return (
-    <nav className="navbar navbar-expand-lg" style={navbarStyle}>
+    <nav className="navbar navbar-expand-lg fixed-top" style={navbarStyle}>
       <a className={`navbar-brand d-flex align-items-center ${textColorClass}`} href="/">
         <img
           src="/logo.png"
@@ -37,26 +37,23 @@ export default function NavBar(props) {
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav ms-5 me-auto mb-2 mb-lg-0">
-          <li className="nav-item ms-3">
+          <li className="nav-item ms-3 text-dark text-decoration-none">
             <Link className={`nav-link active ${textColorClass}`} to="/">{props.page1}</Link>
           </li>
           <li className="nav-item ms-3">
             <Link className={`nav-link active ${textColorClass}`} to="/page2">{props.page2}</Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active ${textColorClass}`} to="/page3">{props.page3}</Link>
+            <Link className={`nav-link active ${textColorClass}`} to="/Budget">{props.page3}</Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active ${textColorClass}`} to="/page4">{props.page4}</Link>
+            <Link className={`nav-link active ${textColorClass}`} to="/page5">{props.page4}</Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active ${textColorClass}`} to="/page5">{props.page5}</Link>
+            <Link className={`nav-link active ${textColorClass}`} to="/page6">{props.page5}</Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active ${textColorClass}`} to="/page6">{props.page6}</Link>
-          </li>
-          <li className="nav-item ms-3">
-            <Link className={`nav-link active ${textColorClass}`} to="/page7">{props.page7}</Link>
+            <Link className={`nav-link active ${textColorClass}`} to="/page7">{props.page6}</Link>
           </li>
         </ul>
 

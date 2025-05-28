@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; 
 import "bootstrap-icons/font/bootstrap-icons.css";
+import Budget from "./components/Budget";
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -33,9 +34,8 @@ function App() {
             page1="Home"
             page2="Learn"
             page3="Budget"
-            page4="Expense"
-            page5="Investment"
-            page6="Community"
+            page4="Investment"
+            page5="Community"
             mode={mode}
             toggleMode={toggleMode}
           />
@@ -48,6 +48,23 @@ function App() {
       element: (
         <>
           <TextForm />
+        </>
+      ),
+    },
+    {
+      path: "/Budget",
+      element: (
+        <>
+          <NavBar
+            page1="Home"
+            page2="Learn"
+            page3="Budget"
+            page4="Investment"
+            page5="Community"
+            mode={mode}
+            toggleMode={toggleMode}
+          />
+          <Budget mode ={mode}/>
         </>
       ),
     },
