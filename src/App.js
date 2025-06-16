@@ -17,12 +17,12 @@ function App() {
       document.body.style.backgroundColor = "#2f243a";
     } else {
       setMode("light");
-      document.body.style.backgroundColor = "#e6dee4";
+      document.body.style.backgroundColor = "#cbf3f0";
     }
   };
 
   useEffect(() => {
-    document.body.style.backgroundColor = mode === "light" ? "#e6dee4" : "#2f243a";
+    document.body.style.backgroundColor = mode === "light" ? "#e2eafc" : "#2f243a";
   }, [mode]);
 
   const router = createBrowserRouter([
@@ -68,6 +68,7 @@ function App() {
         </>
       ),
     },
+    
   ]);
 
   return <RouterProvider router={router} />;

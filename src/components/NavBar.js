@@ -1,19 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-
+import { hover } from "@testing-library/user-event/dist/hover";
+import { useState } from "react";
 
 export default function NavBar(props) {
-  const navbarStyle = {
-    backgroundColor: props.mode === "dark" ? "#5D4493" : "#d8caee",
-
-  };
-
-  const textColorClass = props.mode === "dark" ? "text-white" : "text-dark";
+  const [hover,setHover] = useState(false);
+  const handleStyle=()=>{
+    return{
+      backgroundColor : hover?"#315c2b":"",
+      color: hover?"white":"",
+    }
+  }
+  
 
   return (
-    <nav className="navbar navbar-expand-lg fixed-top" style={navbarStyle}>
-      <a className={`navbar-brand d-flex align-items-center ${textColorClass}`} href="/">
+    <nav className="navbar navbar-expand-lg fixed-top" style={{backgroundColor:"#5D4493"}}>
+      <a className={`navbar-brand d-flex align-items-center text-white`} href="/">
         <img
           src="/logo.png"
           alt="Logo"
@@ -38,23 +41,21 @@ export default function NavBar(props) {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav ms-5 me-auto mb-2 mb-lg-0">
           <li className="nav-item ms-3 text-dark text-decoration-none">
-            <Link className={`nav-link active ${textColorClass}`} to="/">{props.page1}</Link>
+            <Link className={`nav-link active text-white`} to="/">{props.page1}</Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active ${textColorClass}`} to="/page2">{props.page2}</Link>
+            <Link className={`nav-link active text-white`} to="/page2">{props.page2}</Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active ${textColorClass}`} to="/Budget">{props.page3}</Link>
+            <Link className={`nav-link active text-white`} to="/Budget">{props.page3}</Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active ${textColorClass}`} to="/page5">{props.page4}</Link>
+            <Link className={`nav-link active text-white`} to="/investment">{props.page4}</Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active ${textColorClass}`} to="/page6">{props.page5}</Link>
+            <Link className={`nav-link active text-white`} to="/page6">{props.page5}</Link>
           </li>
-          <li className="nav-item ms-3">
-            <Link className={`nav-link active ${textColorClass}`} to="/page7">{props.page6}</Link>
-          </li>
+
         </ul>
 
         {/* Search Bar */}
@@ -66,7 +67,7 @@ export default function NavBar(props) {
               placeholder="Search"
               aria-label="Search"
             />
-            <span className="input-group-text">
+            <span className="input-group-text" onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} style={handleStyle()}>
               <i className="bi bi-search"></i>
             </span>
           </div>
@@ -78,19 +79,17 @@ export default function NavBar(props) {
             className="form-check-input"
             type="checkbox"
             role="switch"
-            // id="switchCheckDefault"
             onChange={props.toggleMode}
             checked={props.mode === "dark"}
           />
-          <label className={`form-check-label ${textColorClass}`} htmlFor="switchCheckDefault">
-            Enable dark mode
+          <label className={`form-check-label text-white`} htmlFor="switchCheckDefault">
           </label>
         </div>
 
         {/* Profile Icon */}
-        <div className="dropdown">
+        <div className="dropdown me-3">
           <i
-            className={`bi bi-person-circle ${textColorClass}`}
+            className={`bi bi-person-circle text-white`}
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
