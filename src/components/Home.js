@@ -338,6 +338,56 @@ export default function Home(props) {
           </div>
         </div>
       </div>
+      <div
+        className="container rounded-5 mt-5 text-center mb-5"
+        style={{
+          backgroundColor: "#4f000b",
+          height: "300px",
+          color: butColor,
+          backgroundColor: cardColor,
+          paddingTop: "20px",
+        }}
+      >
+        <h3 className="">Subscribe for updates & tips</h3>
+        <p className="mt-4">
+          Empower your inbox with content that inspires action—budgeting tools,
+          investment know-how, and the confidence to make bold financial
+          decisions.
+        </p>
+        <div className="form-group">
+          <input
+            type="email"
+            className="mt-4 p-3 no-border custom-placeholder"
+            placeholder="Enter your email"
+            style={{
+              height: "50px",
+              width: "400px",
+              backgroundColor: "#a22c29",
+              color: "white",
+              border: "none", // removes default border
+              outline: "none", // removes blue highlight on focus
+              borderTopLeftRadius: "8px",
+              borderBottomLeftRadius: "8px",
+
+              // optional, smooth corners
+            }}
+          />
+
+          <button className="text-white"
+            style={{
+              height: "51px",
+              width: "150px",
+              border:"none",
+              outline:"none",
+              borderTopRightRadius: "8px",
+              borderBottomRightRadius: "8px",
+              backgroundColor:"#c75146"
+            }}
+          >
+            Subscribe
+          </button>
+        </div>
+      </div>
     </>
   );
 }

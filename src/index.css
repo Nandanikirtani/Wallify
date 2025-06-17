@@ -7,6 +7,13 @@ body {
 h1,h2,h3,h4,h5,h6{
   font-family: "Roboto Slab", serif !important;
 }
+/* You can put this in your global CSS or in <style> tag if inline */
+
+.custom-placeholder::placeholder {
+  color: #ffd1d1;  /* Change to any color you want */
+  opacity: 1;
+  
+}
 
 
 code {

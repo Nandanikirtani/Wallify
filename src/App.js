@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Budget from "./components/Budget";
+import Footer from "./components/Footer";
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -40,6 +41,7 @@ function App() {
             toggleMode={toggleMode}
           />
           <Home mode={mode} />
+          <Footer/>
         </>
       ),
     },
@@ -48,6 +50,7 @@ function App() {
       element: (
         <>
           <TextForm />
+         
         </>
       ),
     },
@@ -65,6 +68,7 @@ function App() {
             toggleMode={toggleMode}
           />
           <Budget mode ={mode}/>
+          <Footer/>
         </>
       ),
     },
