@@ -30,7 +30,7 @@ export default function Learn(props) {
         Master Your Money, One Lesson at a Time
       </p>
       <div className="d-flex">
-        <div className="col-7">
+        <div className="col-12 col-lg-7">
           <div className="row m-3">
             <div className="card p-0">
               <div
@@ -219,8 +219,8 @@ export default function Learn(props) {
           </div>
         </div>
 
-        <div className="col-5 ms-5 m-3">
-          <div className="card p-0" style={{ height: "500px" }}>
+        <div className="col-12 col-lg-5 mt-4 mt-lg-0">
+          <div className="card m-3 p-0" style={{ height: "500px" }}>
             <div
               className="card-header text-center"
               style={{ backgroundColor: "#ba181b", color: "white" }}
@@ -281,8 +281,8 @@ export default function Learn(props) {
         <h2 className="text-center">
           Secure Your Future with Government Schemes
         </h2>
-        <div className="d-flex justify-content-center mt-5">
-          <div className="col-3 m-3">
+        <div className="row justify-content-center mt-5">
+          <div className="col-12 col-sm-6 col-lg-3 mb-4">
             <div className="card p-0" style={{ height: "350px" }}>
               <div
                 className="card-header"
@@ -318,7 +318,7 @@ export default function Learn(props) {
               </a>
             </div>
           </div>
-          <div className="col-3 m-3">
+          <div className="col-12 col-sm-6 col-lg-3 mb-4">
             <div className="card p-0" style={{ height: "350px" }}>
               <div
                 className="card-header"
@@ -351,7 +351,7 @@ export default function Learn(props) {
               </a>
             </div>
           </div>
-          <div className="col-3 m-3">
+          <div className="col-12 col-sm-6 col-lg-3 mb-4">
             <div className="card p-0" style={{ height: "350px" }}>
               <div
                 className="card-header align-items-center"
@@ -385,7 +385,7 @@ export default function Learn(props) {
               </a>
             </div>
           </div>
-          <div className="col-3 m-3">
+          <div className="col-12 col-sm-6 col-lg-3 mb-4">
             <div className="card p-0" style={{ height: "350px" }}>
               <div
                 className="card-header"

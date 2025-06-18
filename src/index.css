@@ -14,7 +14,14 @@ h1,h2,h3,h4,h5,h6{
   opacity: 1;
   
 }
+body {
+  overflow-x: hidden;
+}
 
+/* In your CSS file or style block */
+body {
+  padding-top: 80px; /* Adjust according to your navbar height */
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

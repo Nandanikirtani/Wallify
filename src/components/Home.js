@@ -19,20 +19,19 @@ export default function Home(props) {
         ? "0 8px 20px rgba(0, 0, 0, 0.2)"
         : "0 2px 6px rgba(0, 0, 0, 0.1)",
     cursor: "pointer",
-    width: "18rem",
+    width: "100%",
     color: butColor,
     backgroundColor: cardColor,
   });
 
   const [hoverbox, setHoverBox] = useState(null);
-  const boxStyle = (k) => {
-    return {
-      backgroundColor: hoverbox === k ? "white" : "",
-      color: hoverbox === k ? "black" : "white",
-      transition: "all 0.5s ease-in-out",
-      width: "520px",
-    };
-  };
+  const boxStyle = (k) => ({
+    backgroundColor: hoverbox === k ? "white" : "",
+    color: hoverbox === k ? "black" : "white",
+    transition: "all 0.5s ease-in-out",
+    width: "100%",
+    maxWidth: "520px",
+  });
 
   const cards = [
     {
@@ -59,71 +58,66 @@ export default function Home(props) {
 
   return (
     <>
-      <div
-        className="head"
-        style={{
-          width: "50%",
-          fontSize: "45px",
-          marginLeft: "160px",
-          marginTop: "100px",
-          fontWeight: "500",
-          color: textColor,
-        }}
-      >
-        <h1
-          className=""
-          style={{ marginTop: "230px", fontSize: "50px", width: "90%" }}
-        >
-          What’s stopping you from making{" "}
-          <span style={{ color: spColor }}>
-            {" "}
-            better financial decisions today?
-          </span>
-        </h1>
-      </div>
-      <p
-        style={{
-          fontSize: "25px",
-          marginLeft: "160px",
-          color: pColor,
-          fontWeight: "500",
-          marginTop: "20px",
-        }}
-      >
-        <i> Take Control of Your Financial Future with Wallify</i>
-      </p>
+      <div className="container mt-5 pt-5">
+        <div className="row align-items-center">
+          <div className="col-lg-6 col-md-12 mb-4">
+            <h1
+              className="fw-semibold"
+              style={{
+                fontSize: "clamp(28px, 5vw, 50px)",
+                color: textColor,
+              }}
+            >
+              What’s stopping you from making{" "}
+              <span style={{ color: spColor }}>
+                better financial decisions today?
+              </span>
+            </h1>
 
-      <Link
-        to="/login"
-        className="btn startBut fw-semibold rounded border-0 my-4 fs-5"
-        style={{
-          marginLeft: "160px",
-          height: "50px",
-          width: "250px",
-          color: butColor,
-          background: backgroundColor,
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          textDecoration: "none",
-        }}
-      >
-        Track Your Expenses
-      </Link>
+            <p
+              style={{
+                fontSize: "20px",
+                color: pColor,
+                fontWeight: "500",
+                marginTop: "20px",
+              }}
+            >
+              <i>Take Control of Your Financial Future with Wallify</i>
+            </p>
 
-      <div className="text-center">
-        <img
-          src="/Homeimg.png"
-          className="rounded img-fluid float-end me-5 "
-          alt="Money Jar"
-          style={{ width: "700px", marginTop: "-420px" }}
-        />
+            <Link
+              to="/login"
+              className="btn startBut fw-semibold rounded border-0 my-4 fs-5"
+              style={{
+                height: "50px",
+                width: "250px",
+                color: butColor,
+                background: backgroundColor,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                textDecoration: "none",
+              }}
+            >
+              Track Your Expenses
+            </Link>
+          </div>
+
+          <div className="col-lg-6 col-md-12 text-center">
+            <img
+              src="/Homeimg.png"
+              className="img-fluid rounded"
+              alt="Money Jar"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+          </div>
+        </div>
       </div>
 
       {/*Why wallify section */}
       <div
-        className="container text-center"
-        style={{ color: textColor, marginTop: "200px", margin: "100px" }}
+        className="container text-center mb-5 px-3 mx-auto mt-5"
+        style={{ color: textColor }}
       >
         <h1>Why Wallify?</h1>
         <div className="row justify-content-center">
@@ -140,9 +134,9 @@ export default function Home(props) {
         </div>
       </div>
       <div className="container mt-5 mb-5">
-        <div className="row g-5">
+        <div className=" row g-5 justify-content-center">
           {cards.map((card, index) => (
-            <div className="col-md-3" key={index}>
+            <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={index}>
               <div
                 className="card p-3"
                 style={getCardStyle(index)}
@@ -198,6 +192,7 @@ export default function Home(props) {
           Visualize your spending habits
         </h2>
       </div>
+
       <div className="container mt-5 mb-5">
         <h1
           className="text-center mb-5"
@@ -205,99 +200,104 @@ export default function Home(props) {
         >
           Success Stories From Smart Savers
         </h1>
-        <div className=" d-flex justify-content-center">
-          <div
-            className="card me-4"
-            style={{
-              width: "800px",
-              alignItems: "center",
-              border: "2px solid #DDBE18",
-            }}
-          >
-            <div className="card-body">
-              <div className="d-flex">
-                <img
-                  className="rounded-circle me-2 border border-black"
-                  style={{ width: "40px", height: "40px" }}
-                  src="/profile1.avif"
-                  alt=""
-                />
-                <h3 className="">Harish</h3>
-              </div>
-              <div className="d-flex ms-5 mt-0 mb-2">
-                <i className="bi bi-star-fill text-warning me-1"></i>
-                <i className="bi bi-star-fill text-warning me-1"></i>
-                <i className="bi bi-star-fill text-warning me-1"></i>
-                <i className="bi bi-star-fill text-warning me-1"></i>
-                <i className="bi bi-star text-warning"></i>
-              </div>
 
-              <p>
-                Wallify helped me take control of my spending. I never realized
-                how much I could save with just a little tracking!
-              </p>
+        <div className="row g-4 justify-content-center">
+          {/* Card 1 */}
+          <div className="col-12 col-md-6 col-lg-4">
+            <div
+              className="p-3 card h-100"
+              style={{
+                border: "2px solid #DDBE18",
+              }}
+            >
+              <div className="card-body">
+                <div className="d-flex align-items-center mb-2">
+                  <img
+                    className="rounded-circle me-2 border border-black"
+                    style={{ width: "40px", height: "40px" }}
+                    src="/profile1.avif"
+                    alt=""
+                  />
+                  <h3 className="mb-0">Harish</h3>
+                </div>
+                <div className="d-flex ms-5 mt-0 mb-2">
+                  <i className="bi bi-star-fill text-warning me-1"></i>
+                  <i className="bi bi-star-fill text-warning me-1"></i>
+                  <i className="bi bi-star-fill text-warning me-1"></i>
+                  <i className="bi bi-star-fill text-warning me-1"></i>
+                  <i className="bi bi-star text-warning"></i>
+                </div>
+                <p>
+                  Wallify helped me take control of my spending. I never
+                  realized how much I could save with just a little tracking!
+                </p>
+              </div>
             </div>
           </div>
-          <div
-            className="card me-4"
-            style={{
-              width: "800px",
-              alignItems: "center",
-              border: "2px solid #DDBE18",
-            }}
-          >
-            <div className="card-body">
-              <div className="d-flex">
-                <img
-                  className="rounded-circle me-2 border border-black"
-                  style={{ width: "40px", height: "40px" }}
-                  src="/profile2.avif"
-                  alt=""
-                />
-                <h3 className="">Jim</h3>
+
+          {/* Card 2 */}
+          <div className="col-12 col-md-6 col-lg-4">
+            <div
+              className="p-3 card h-100"
+              style={{
+                border: "2px solid #DDBE18",
+              }}
+            >
+              <div className="card-body">
+                <div className="d-flex align-items-center mb-2">
+                  <img
+                    className="rounded-circle me-2 border border-black"
+                    style={{ width: "40px", height: "40px" }}
+                    src="/profile2.avif"
+                    alt=""
+                  />
+                  <h3 className="mb-0">Jim</h3>
+                </div>
+                <div className="d-flex ms-5 mt-0 mb-2">
+                  <i className="bi bi-star-fill text-warning me-1"></i>
+                  <i className="bi bi-star-fill text-warning me-1"></i>
+                  <i className="bi bi-star-fill text-warning me-1"></i>
+                  <i className="bi bi-star-fill text-warning me-1"></i>
+                  <i className="bi bi-star text-warning"></i>
+                </div>
+                <p>
+                  I’ve tried several budgeting apps, but Wallify’s simplicity
+                  and insights stand out. It’s now part of my daily routine.
+                </p>
               </div>
-              <div className="d-flex ms-5 mt-0 mb-2">
-                <i className="bi bi-star-fill text-warning me-1"></i>
-                <i className="bi bi-star-fill text-warning me-1"></i>
-                <i className="bi bi-star-fill text-warning me-1"></i>
-                <i className="bi bi-star-fill text-warning me-1"></i>
-                <i className="bi bi-star text-warning"></i>
-              </div>
-              <p>
-                I’ve tried several budgeting apps, but Wallify’s simplicity and
-                insights stand out. It’s now part of my daily routine.
-              </p>
             </div>
           </div>
-          <div
-            className="card"
-            style={{
-              width: "800px",
-              alignItems: "center",
-              border: "2px solid #DDBE18",
-            }}
-          >
-            <div className="card-body">
-              <div className="d-flex">
-                <img
-                  className="rounded-circle me-2 border border-black"
-                  style={{ width: "40px", height: "40px" }}
-                  src="/profile3.png"
-                  alt=""
-                />
-                <h3 className="">Lucy</h3>
+
+          {/* Card 3 */}
+          <div className="col-12 col-md-6 col-lg-4">
+            <div
+              className="p-3 card h-100"
+              style={{
+                border: "2px solid #DDBE18",
+              }}
+            >
+              <div className="card-body">
+                <div className="d-flex align-items-center mb-2">
+                  <img
+                    className="rounded-circle me-2 border border-black"
+                    style={{ width: "40px", height: "40px" }}
+                    src="/profile3.png"
+                    alt=""
+                  />
+                  <h3 className="mb-0">Lucy</h3>
+                </div>
+                <div className="d-flex ms-5 mt-0 mb-2">
+                  <i className="bi bi-star-fill text-warning me-1"></i>
+                  <i className="bi bi-star-fill text-warning me-1"></i>
+                  <i className="bi bi-star-fill text-warning me-1"></i>
+                  <i className="bi bi-star text-warning me-1"></i>
+                  <i className="bi bi-star text-warning"></i>
+                </div>
+                <p>
+                  The expense tracker and SIP calculator are game-changers.
+                  Wallify made managing money feel easy and even fun!
+                </p>
               </div>
-              <div className="d-flex ms-5 mt-0 mb-2">
-                <i className="bi bi-star-fill text-warning me-1"></i>
-                <i className="bi bi-star-fill text-warning me-1"></i>
-                <i className="bi bi-star-fill text-warning me-1"></i>
-                <i className="bi bi-star text-warning me-1"></i>
-                <i className="bi bi-star text-warning"></i>
-              </div>
-              <p>
-                The expense tracker and SIP calculator are game-changers.
-                Wallify made managing money feel easy and even fun!
-              </p>
             </div>
           </div>
         </div>
@@ -338,10 +338,10 @@ export default function Home(props) {
           </div>
         </div>
       </div>
+
       <div
         className="container rounded-5 mt-5 text-center mb-5"
         style={{
-          backgroundColor: "#4f000b",
           height: "300px",
           color: butColor,
           backgroundColor: cardColor,
@@ -354,34 +354,34 @@ export default function Home(props) {
           investment know-how, and the confidence to make bold financial
           decisions.
         </p>
-        <div className="form-group">
+        <div className="d-flex flex-column flex-md-row align-items-center justify-content-center gap-2 mt-4">
           <input
             type="email"
-            className="mt-4 p-3 no-border custom-placeholder"
             placeholder="Enter your email"
+            className="custom-placeholder p-3"
             style={{
               height: "50px",
-              width: "400px",
+              width: "100%",
+              maxWidth: "400px",
               backgroundColor: "#a22c29",
               color: "white",
-              border: "none", // removes default border
-              outline: "none", // removes blue highlight on focus
+              border: "none",
+              outline: "none",
               borderTopLeftRadius: "8px",
               borderBottomLeftRadius: "8px",
-
-              // optional, smooth corners
             }}
           />
-
-          <button className="text-white"
+          <button
+            className="text-white"
             style={{
-              height: "51px",
-              width: "150px",
-              border:"none",
-              outline:"none",
+              height: "50px",
+              width: "100%",
+              maxWidth: "150px",
+              border: "none",
+              outline: "none",
               borderTopRightRadius: "8px",
               borderBottomRightRadius: "8px",
-              backgroundColor:"#c75146"
+              backgroundColor: "#c75146",
             }}
           >
             Subscribe
