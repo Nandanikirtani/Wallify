@@ -229,14 +229,14 @@ export default function Learn(props) {
             </div>
             <div className="card-body">
               <div
-                class="progress"
+                className="progress"
                 role="progressbar"
                 aria-label="Example with label"
                 aria-valuenow={progress}
                 aria-valuemin="0"
                 aria-valuemax="100"
               >
-                <div class="progress-bar" style={{ width: `${progress}%` }}>
+                <div className="progress-bar" style={{ width: `${progress}%` }}>
                   {progress}%
                 </div>
               </div>
