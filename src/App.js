@@ -10,6 +10,7 @@ import Budget from "./components/Budget";
 import Footer from "./components/Footer";
 import Learn from "./components/Learn";
 import Investment from "./components/Investment";
+import Community from "./components/Community";
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -106,6 +107,24 @@ function App() {
             toggleMode={toggleMode}
           />
           <Investment mode ={mode}/>
+          <Footer/>
+        </>
+      ),
+    },
+    {
+      path: "/community",
+      element: (
+        <>
+          <NavBar
+            page1="Home"
+            page2="Learn"
+            page3="Budget"
+            page4="Investment"
+            page5="Community"
+            mode={mode}
+            toggleMode={toggleMode}
+          />
+          <Community mode ={mode}/>
           <Footer/>
         </>
       ),
