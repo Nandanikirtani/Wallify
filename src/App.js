@@ -8,6 +8,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Budget from "./components/Budget";
 import Footer from "./components/Footer";
+import Learn from "./components/Learn";
+import Investment from "./components/Investment";
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -55,6 +57,24 @@ function App() {
       ),
     },
     {
+      path: "/learn",
+      element: (
+        <>
+          <NavBar
+            page1="Home"
+            page2="Learn"
+            page3="Budget"
+            page4="Investment"
+            page5="Community"
+            mode={mode}
+            toggleMode={toggleMode}
+          />
+          <Learn mode ={mode}/>
+          <Footer/>
+        </>
+      )
+    },
+    {
       path: "/Budget",
       element: (
         <>
@@ -68,6 +88,24 @@ function App() {
             toggleMode={toggleMode}
           />
           <Budget mode ={mode}/>
+          <Footer/>
+        </>
+      ),
+    },
+    {
+      path: "/investment",
+      element: (
+        <>
+          <NavBar
+            page1="Home"
+            page2="Learn"
+            page3="Budget"
+            page4="Investment"
+            page5="Community"
+            mode={mode}
+            toggleMode={toggleMode}
+          />
+          <Investment mode ={mode}/>
           <Footer/>
         </>
       ),

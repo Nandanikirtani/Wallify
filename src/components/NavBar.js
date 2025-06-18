@@ -44,7 +44,7 @@ export default function NavBar(props) {
             <Link className={`nav-link active text-white`} to="/">{props.page1}</Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active text-white`} to="/page2">{props.page2}</Link>
+            <Link className={`nav-link active text-white`} to="/learn">{props.page2}</Link>
           </li>
           <li className="nav-item ms-3">
             <Link className={`nav-link active text-white`} to="/Budget">{props.page3}</Link>
@@ -53,7 +53,7 @@ export default function NavBar(props) {
             <Link className={`nav-link active text-white`} to="/investment">{props.page4}</Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active text-white`} to="/page6">{props.page5}</Link>
+            <Link className={`nav-link active text-white`} to="/community">{props.page5}</Link>
           </li>
 
         </ul>

@@ -9,6 +9,7 @@ export default function Budget(props) {
 
   const [income1, setIncome1] = useState("");
   const [extraIncome, setExtraIncome] = useState("");
+  const [saving, setSaving] = useState(0);
 
   const totalIncome = Number(income1) + Number(extraIncome);
 
@@ -38,6 +39,7 @@ export default function Budget(props) {
     });
 
     document.getElementById("subtotal").value = total;
+    return total;
   }
 
   function calculateSubtotal1() {
@@ -48,6 +50,7 @@ export default function Budget(props) {
       totalSum += val;
     });
     document.getElementById("subtotal1").value = totalSum;
+    return totalSum;
   }
 
   function calculateSubtotal2() {
@@ -58,16 +61,30 @@ export default function Budget(props) {
       totalsum1 += val;
     });
     document.getElementById("subtotal2").value = totalsum1;
+    return totalsum1;
   }
 
-  function calculateSubtotal3(){
-    const ids4 = ["personal","student","emi","credit","other3"]
-    let totalsum2 =0;
-    ids4.forEach((id4)=>{
-      let val = parseFloat(document.getElementById(id4)?.value)||0;
+  function calculateSubtotal3() {
+    const ids4 = ["personal", "student", "emi", "credit", "other3"];
+    let totalsum2 = 0;
+    ids4.forEach((id4) => {
+      let val = parseFloat(document.getElementById(id4)?.value) || 0;
       totalsum2 += val;
     });
     document.getElementById("subtotal3").value = totalsum2;
+    return totalsum2;
+  }
+
+  function calculateSaving() {
+    const totalExpenses =
+      calculateSubtotal() +
+      calculateSubtotal1() +
+      calculateSubtotal2() +
+      calculateSubtotal3();
+    console.log(totalExpenses);
+    console.log(totalIncome1);
+    const remaining = totalIncome1 - totalExpenses;
+    setSaving(remaining >= 0 ? remaining : 0);
   }
   return (
     <>
@@ -217,7 +234,10 @@ export default function Budget(props) {
             </h2>
           </div>
           <div className="col-4 " style={{ color: textColor }}>
-            <div className="" style={{marginTop:"-150px", marginLeft: "50px" }}>
+            <div
+              className=""
+              style={{ marginTop: "-150px", marginLeft: "50px" }}
+            >
               <h5 className="fs-4 ">
                 <u>Projected Monthly Income</u>
               </h5>
@@ -300,7 +320,7 @@ export default function Budget(props) {
             </div>
           </div>
           <div className="col-4 mt-5" style={{ color: textColor }}>
-            <div className="" style={{  }}>
+            <div className="" style={{}}>
               <h5 className="fs-4 text-center">
                 <u>Transportation</u>
               </h5>
@@ -453,9 +473,11 @@ export default function Budget(props) {
             </div>
           </div>
 
-
-         <div className="col-4 mt-5" style={{ color: textColor }}>
-            <div className="" style={{marginTop:"-50px", marginLeft: "50px" }}>
+          <div className="col-4 mt-5" style={{ color: textColor }}>
+            <div
+              className=""
+              style={{ marginTop: "-50px", marginLeft: "50px" }}
+            >
               <h5 className="fs-4 text-center">
                 <u>Loans</u>
               </h5>
@@ -564,7 +586,7 @@ export default function Budget(props) {
                     onChange={calculateSubtotal3}
                   />
                 </div>
-               
+
                 <div className="d-flex input-group" style={{ height: "50px" }}>
                   <label
                     htmlFor="subtotal"
@@ -589,10 +611,11 @@ export default function Budget(props) {
             </div>
           </div>
 
-
-
           <div className="col-4 " style={{ color: textColor }}>
-            <div className="" style={{marginTop:"-150px", marginLeft: "50px" }}>
+            <div
+              className=""
+              style={{ marginTop: "-150px", marginLeft: "50px" }}
+            >
               <h5 className="fs-4">
                 <u>Actual Monthly Income</u>
               </h5>
@@ -1101,6 +1124,51 @@ export default function Budget(props) {
                     style={{ width: "30px" }}
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="row" style={{ color: textColor }}>
+        {/* First 6 columns left intentionally empty */}
+        <div className="col-4"></div>
+
+        {/* Content in the right 6 columns */}
+        <div className="col-6" style={{ marginTop: "-200px" }}>
+          <div className=" ms-auto" style={{ maxWidth: "300px" }}>
+            <h5 className="fs-4 text-center">
+              <u>Savings</u>
+            </h5>
+
+            <div className="mt-3">
+              <div className="form-group input-group" style={{ height: "50px" }}>
+                <label
+                  htmlFor="income1"
+                  className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
+                  style={{
+                    color: "white",
+                    backgroundColor: "#9e2a2b",
+                    width: "150px",
+                    marginBottom: 0,
+                  }}
+                >
+                  Total Savings
+                </label>
+                <input
+                  type="number"
+                  className="form-control border border-start-0 rounded-end"
+                  id="save"
+                  placeholder=""
+                  style={{ width: "30px" }}
+                  value={saving}
+                />
+                <button 
+                  className="ms-5 btn btn-outline-success mt-3"
+                  onClick={calculateSaving}
+                >
+                  Calculate Saving
+                </button>
               </div>
             </div>
           </div>
