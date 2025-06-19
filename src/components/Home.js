@@ -217,7 +217,7 @@ export default function Home(props) {
                     src={`${process.env.PUBLIC_URL}/profile1.avif`}
                     alt=""
                   />
-                  <h3 className="mb-0">Harish</h3>
+                  <h3 className="mb-0">Chhavi</h3>
                 </div>
                 <div className="d-flex ms-5 mt-0 mb-2">
                   <i className="bi bi-star-fill text-warning me-1"></i>
@@ -250,7 +250,7 @@ export default function Home(props) {
                     src={`${process.env.PUBLIC_URL}/profile2.avif`}
                     alt=""
                   />
-                  <h3 className="mb-0">Jim</h3>
+                  <h3 className="mb-0">Yashika</h3>
                 </div>
                 <div className="d-flex ms-5 mt-0 mb-2">
                   <i className="bi bi-star-fill text-warning me-1"></i>
