@@ -17,7 +17,7 @@ export default function Footer() {
               {/* Logo and Description */}
               <div className="col-12 col-md-4 mb-4">
                 <img
-                  src="/logo.png"
+                  src={`${process.env.PUBLIC_URL}/logo.png`}
                   alt="Logo"
                   width="140"
                   height="40"

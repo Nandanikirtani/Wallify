@@ -58,7 +58,7 @@ export default function Home(props) {
 
   return (
     <>
-      <div className="container mt-5 pt-5">
+      <div className="container mt-5" style={{paddingTop:"120px"}}>
         <div className="row align-items-center">
           <div className="col-lg-6 col-md-12 mb-4">
             <h1
@@ -105,7 +105,7 @@ export default function Home(props) {
 
           <div className="col-lg-6 col-md-12 text-center">
             <img
-              src="/Homeimg.png"
+              src={`${process.env.PUBLIC_URL}/Homeimg.png`}
               className="img-fluid rounded"
               alt="Money Jar"
               style={{ maxWidth: "100%", height: "auto" }}
@@ -158,8 +158,7 @@ export default function Home(props) {
       <div
         className="s d-flex flex-column align-items-center justify-content-center text-center text-white "
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(/Homeimg2.avif)",
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${process.env.PUBLIC_URL}/Homeimg2.avif)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "100vh",
@@ -215,7 +214,7 @@ export default function Home(props) {
                   <img
                     className="rounded-circle me-2 border border-black"
                     style={{ width: "40px", height: "40px" }}
-                    src="/profile1.avif"
+                    src={`${process.env.PUBLIC_URL}/profile1.avif`}
                     alt=""
                   />
                   <h3 className="mb-0">Harish</h3>
@@ -248,7 +247,7 @@ export default function Home(props) {
                   <img
                     className="rounded-circle me-2 border border-black"
                     style={{ width: "40px", height: "40px" }}
-                    src="/profile2.avif"
+                    src={`${process.env.PUBLIC_URL}/profile2.avif`}
                     alt=""
                   />
                   <h3 className="mb-0">Jim</h3>
@@ -281,7 +280,7 @@ export default function Home(props) {
                   <img
                     className="rounded-circle me-2 border border-black"
                     style={{ width: "40px", height: "40px" }}
-                    src="/profile3.png"
+                    src={`${process.env.PUBLIC_URL}/profile3.png`}
                     alt=""
                   />
                   <h3 className="mb-0">Lucy</h3>

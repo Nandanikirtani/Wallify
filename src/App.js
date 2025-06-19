@@ -8,7 +8,6 @@ import Footer from "./components/Footer";
 import Learn from "./components/Learn";
 import Investment from "./components/Investment";
 import Community from "./components/Community";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -65,3 +64,5 @@ function App() {
 }
 
 export default App;
+
+

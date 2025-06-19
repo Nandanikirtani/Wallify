@@ -19,8 +19,8 @@ export default function Learn(props) {
     setbadge((prev) => (prev.includes(newBadge) ? prev : [...prev, newBadge]));
   }
   const badgeImages = {
-    Unstoppable: "/Unstoppable.webp",
-    Achiever: "/Winbadge.webp",
+    Unstoppable: `${process.env.PUBLIC_URL}/Unstoppable.webp`,
+    Achiever: `${process.env.PUBLIC_URL}/Winbadge.webp`,
   };
 
   return (
@@ -378,7 +378,8 @@ export default function Learn(props) {
                 </h6>
               </div>
               <a
-                href="https://www.standupmitra.in/home/suischemes" target="_blank"
+                href="https://www.standupmitra.in/home/suischemes"
+                target="_blank"
                 className="mb-5 ms-4 link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
               >
                 Learn More
@@ -409,7 +410,8 @@ export default function Learn(props) {
                 </h6>
               </div>
               <a
-                href="https://www.nsiindia.gov.in/(S(brtmnrak02avxg453d1k2xjp))/InternalPage.aspx?Id_Pk=89" target="_blank"
+                href="https://www.nsiindia.gov.in/(S(brtmnrak02avxg453d1k2xjp))/InternalPage.aspx?Id_Pk=89"
+                target="_blank"
                 className=" mb-5 ms-4 link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
               >
                 Learn More

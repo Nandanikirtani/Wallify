@@ -5,20 +5,17 @@ import { hover } from "@testing-library/user-event/dist/hover";
 import { useState } from "react";
 
 export default function NavBar(props) {
-  const [hover,setHover] = useState(false);
-  const handleStyle=()=>{
-    return{
-      backgroundColor : hover?"#315c2b":"",
-      color: hover?"white":"",
-    }
-  }
-  
-
   return (
-    <nav className="navbar navbar-expand-lg fixed-top" style={{backgroundColor:"#5D4493"}}>
-      <a className={`navbar-brand d-flex align-items-center text-white`} href="/">
+    <nav
+      className="navbar navbar-expand-lg fixed-top"
+      style={{ backgroundColor: "#5D4493" }}
+    >
+      <a
+        className={`navbar-brand d-flex align-items-center text-white`}
+        href="/"
+      >
         <img
-          src="/logo.png"
+          src={`${process.env.PUBLIC_URL}/logo.png`}
           alt="Logo"
           width="140"
           height="40"
@@ -41,37 +38,44 @@ export default function NavBar(props) {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav ms-5 me-auto mb-2 mb-lg-0">
           <li className="nav-item ms-3 text-dark text-decoration-none">
-            <Link className={`nav-link active text-white`} to="/">{props.page1}</Link>
+            <Link className={`nav-link active text-white`} to="/">
+              {props.page1}
+            </Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active text-white`} to="/learn">{props.page2}</Link>
+            <Link className={`nav-link active text-white`} to="/learn">
+              {props.page2}
+            </Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active text-white`} to="/Budget">{props.page3}</Link>
+            <Link className={`nav-link active text-white`} to="/Budget">
+              {props.page3}
+            </Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active text-white`} to="/investment">{props.page4}</Link>
+            <Link className={`nav-link active text-white`} to="/investment">
+              {props.page4}
+            </Link>
           </li>
           <li className="nav-item ms-3">
-            <Link className={`nav-link active text-white`} to="/community">{props.page5}</Link>
+            <Link className={`nav-link active text-white`} to="/community">
+              {props.page5}
+            </Link>
           </li>
-
         </ul>
 
-        {/* Search Bar */}
-        <form className="me-3" role="search">
-          <div className="input-group">
-            <input
-              type="search"
-              className="form-control"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <span className="input-group-text" onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} style={handleStyle()}>
-              <i className="bi bi-search"></i>
-            </span>
-          </div>
-        </form>
+        <div className="container">
+          <Link to="/login">
+            <button type="button" className="btn btn-danger float-end">
+              Log in
+            </button>
+          </Link>
+          <Link to="/login">
+            <button type="button" className="btn btn-light float-end me-1">
+              Sign up
+            </button>
+          </Link>
+        </div>
 
         {/* Dark Mode Toggle */}
         <div className="form-check form-switch me-3">
@@ -82,8 +86,10 @@ export default function NavBar(props) {
             onChange={props.toggleMode}
             checked={props.mode === "dark"}
           />
-          <label className={`form-check-label text-white`} htmlFor="switchCheckDefault">
-          </label>
+          <label
+            className={`form-check-label text-white`}
+            htmlFor="switchCheckDefault"
+          ></label>
         </div>
 
         {/* Profile Icon */}
@@ -93,13 +99,31 @@ export default function NavBar(props) {
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-            style={{ fontSize: "1.8rem", cursor: "pointer", marginRight: "10px" }}
+            style={{
+              fontSize: "1.8rem",
+              cursor: "pointer",
+              marginRight: "10px",
+            }}
           ></i>
           <ul className="dropdown-menu dropdown-menu-end">
-            <li><a className="dropdown-item" href="#">Profile</a></li>
-            <li><a className="dropdown-item" href="#">Settings</a></li>
-            <li><hr className="dropdown-divider" /></li>
-            <li><a className="dropdown-item" href="#">Logout</a></li>
+            <li>
+              <a className="dropdown-item" href="#">
+                Profile
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#">
+                Settings
+              </a>
+            </li>
+            <li>
+              <hr className="dropdown-divider" />
+            </li>
+            <li>
+              <a className="dropdown-item" href="#">
+                Logout
+              </a>
+            </li>
           </ul>
         </div>
       </div>

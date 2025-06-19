@@ -212,7 +212,7 @@ export default function Budget(props) {
           {/* Right Column: Image */}
           <div className="col-md-6 text-center">
             <img
-              src="/Budget.png"
+              src={`${process.env.PUBLIC_URL}/Budget.png`}
               className="img-fluid"
               alt="Budget illustration"
               style={{
