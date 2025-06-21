@@ -58,9 +58,9 @@ export default function Home(props) {
 
   return (
     <>
-      <div className="container mt-5" style={{paddingTop:"120px"}}>
+      <div className="container mt-5" style={{ paddingTop: "120px" }}>
         <div className="row align-items-center">
-          <div className="col-lg-6 col-md-12 mb-4">
+          <div className="col-lg-6 col-md-12 mb-4 ">
             <h1
               className="fw-semibold"
               style={{
@@ -302,49 +302,29 @@ export default function Home(props) {
         </div>
       </div>
 
-      <div className="container mt-5 mb-5">
-        <h1
-          className="text-center mb-5"
-          style={{ color: textColor, marginTop: "100px" }}
-        >
-          Trusted by Thousands, Guided by Experts
-        </h1>
-
-        <div
-          className="row text-center"
-          style={{ color: spColor, marginTop: "70px" }}
-        >
-          <div className="col-md-4">
+      <div className="container" style={{ marginTop: "70px" }}>
+        {/* Numbers */}
+        <div className="row text-center" style={{ color: spColor }}>
+          <div className="col-6 col-md-4">
             <h1 style={{ fontSize: "60px" }}>15k+</h1>
-          </div>
-          <div className="col-md-4">
-            <h1 style={{ fontSize: "60px" }}>30+</h1>
-          </div>
-          <div className="col-md-4">
-            <h1 style={{ fontSize: "60px" }}>10+</h1>
-          </div>
-        </div>
-
-        <div className="row text-center mt-3" style={{ color: textColor }}>
-          <div className="col-md-4">
             <h3>Users</h3>
           </div>
-          <div className="col-md-4">
+          <div className="col-6 col-md-4">
+            <h1 style={{ fontSize: "60px" }}>30+</h1>
             <h3>Chief Experts</h3>
           </div>
-          <div className="col-md-4">
+          <div className="col-12 col-md-4 ">
+            <h1 style={{ fontSize: "60px" }}>10+</h1>
             <h3>Years of Experience</h3>
           </div>
         </div>
       </div>
 
       <div
-        className="container rounded-5 mt-5 text-center mb-5"
+        className="container rounded-5 p-5 m-auto mt-5 text-center "
         style={{
-          height: "300px",
           color: butColor,
           backgroundColor: cardColor,
-          paddingTop: "20px",
         }}
       >
         <h3 className="">Subscribe for updates & tips</h3>

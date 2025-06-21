@@ -4,7 +4,7 @@ export default function TextForm() {
   
 
   return (
-    <div className="container-fluid py-5">
+    <div className="container-fluid mt-3 py-5" style={{backgroundColor:"#e2eafc"}}>
       <div className="row justify-content-center align-items-center">
         {/* Left Text Column */}
         <div className="col-lg-6 col-md-10 text-center text-lg-start px-5 mb-5 mb-lg-0">

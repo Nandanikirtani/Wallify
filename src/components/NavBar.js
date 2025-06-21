@@ -1,130 +1,99 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { hover } from "@testing-library/user-event/dist/hover";
 import { useState } from "react";
 
 export default function NavBar(props) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <nav
-      className="navbar navbar-expand-lg fixed-top"
-      style={{ backgroundColor: "#5D4493" }}
-    >
-      <a
-        className={`navbar-brand d-flex align-items-center text-white`}
-        href="/"
-      >
-        <img
-          src={`${process.env.PUBLIC_URL}/logo.png`}
-          alt="Logo"
-          width="140"
-          height="40"
-          className="me-2 ms-5"
-        />
-      </a>
-
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav ms-5 me-auto mb-2 mb-lg-0">
-          <li className="nav-item ms-3 text-dark text-decoration-none">
-            <Link className={`nav-link active text-white`} to="/">
-              {props.page1}
-            </Link>
-          </li>
-          <li className="nav-item ms-3">
-            <Link className={`nav-link active text-white`} to="/learn">
-              {props.page2}
-            </Link>
-          </li>
-          <li className="nav-item ms-3">
-            <Link className={`nav-link active text-white`} to="/Budget">
-              {props.page3}
-            </Link>
-          </li>
-          <li className="nav-item ms-3">
-            <Link className={`nav-link active text-white`} to="/investment">
-              {props.page4}
-            </Link>
-          </li>
-          <li className="nav-item ms-3">
-            <Link className={`nav-link active text-white`} to="/community">
-              {props.page5}
-            </Link>
-          </li>
-        </ul>
-
-        <div className="container">
-          <Link to="/login">
-            <button type="button" className="btn btn-danger float-end">
-              Log in
-            </button>
-          </Link>
-          <Link to="/login">
-            <button type="button" className="btn btn-light float-end me-1">
-              Sign up
-            </button>
-          </Link>
-        </div>
-
-        {/* Dark Mode Toggle */}
-        <div className="form-check form-switch me-3">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            role="switch"
-            onChange={props.toggleMode}
-            checked={props.mode === "dark"}
+    <nav className="navbar navbar-expand-lg fixed-top" style={{ backgroundColor: "#5D4493" }}>
+      <div className="container-fluid">
+        <a className="navbar-brand d-flex align-items-center text-white" href="/">
+          <img
+            src={`${process.env.PUBLIC_URL}/logo.png`}
+            alt="Logo"
+            width="140"
+            height="40"
+            className="me-2"
           />
-          <label
-            className={`form-check-label text-white`}
-            htmlFor="switchCheckDefault"
-          ></label>
-        </div>
+        </a>
 
-        {/* Profile Icon */}
-        <div className="dropdown me-3">
-          <i
-            className={`bi bi-person-circle text-white`}
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            style={{
-              fontSize: "1.8rem",
-              cursor: "pointer",
-              marginRight: "10px",
-            }}
-          ></i>
-          <ul className="dropdown-menu dropdown-menu-end">
-            <li>
-              <a className="dropdown-item" href="#">
-                Profile
-              </a>
+       <button
+  className="navbar-toggler border-0"  // removes border
+  type="button"
+  onClick={() => setIsMenuOpen(!isMenuOpen)}
+  data-bs-toggle="collapse"
+  data-bs-target="#navbarSupportedContent"
+  aria-controls="navbarSupportedContent"
+  aria-expanded={isMenuOpen}
+  aria-label="Toggle navigation"
+  style={{ boxShadow: "none" }} // removes focus shadow
+>
+  {isMenuOpen ? (
+    <i className="bi bi-x-lg text-white fs-2"></i> // white cross icon
+  ) : (
+    <i className="bi bi-list text-white fs-2"></i> // white hamburger icon
+  )}
+</button>
+
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          {/* Left Navigation Links */}
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item ms-2">
+              <Link className="nav-link text-white" to="/">{props.page1}</Link>
             </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Settings
-              </a>
+            <li className="nav-item ms-2">
+              <Link className="nav-link text-white" to="/learn">{props.page2}</Link>
             </li>
-            <li>
-              <hr className="dropdown-divider" />
+            <li className="nav-item ms-2">
+              <Link className="nav-link text-white" to="/Budget">{props.page3}</Link>
             </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Logout
-              </a>
+            <li className="nav-item ms-2">
+              <Link className="nav-link text-white" to="/investment">{props.page4}</Link>
+            </li>
+            <li className="nav-item ms-2">
+              <Link className="nav-link text-white" to="/community">{props.page5}</Link>
             </li>
           </ul>
+
+          {/* Right Buttons and Icons */}
+          <div className="d-lg-flex align-items-center ms-auto flex-column flex-lg-row gap-2">
+            <Link to="/login">
+              <button type="button" className="btn btn-danger">Log in</button>
+            </Link>
+            <Link to="/login">
+              <button type="button" className="btn btn-light">Sign up</button>
+            </Link>
+
+            {/* Toggle Dark Mode */}
+            <div className="form-check form-switch text-white mx-2">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                onChange={props.toggleMode}
+                checked={props.mode === "dark"}
+              />
+            </div>
+
+            {/* Profile Dropdown */}
+            <div className="dropdown">
+              <i
+                className="bi bi-person-circle text-white"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style={{ fontSize: "1.8rem", cursor: "pointer" }}
+              ></i>
+              <ul className="dropdown-menu dropdown-menu-end">
+                <li><a className="dropdown-item" href="#">Profile</a></li>
+                <li><a className="dropdown-item" href="#">Settings</a></li>
+                <li><hr className="dropdown-divider" /></li>
+                <li><a className="dropdown-item" href="#">Logout</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
@@ -137,10 +106,8 @@ NavBar.propTypes = {
   page3: PropTypes.string,
   page4: PropTypes.string,
   page5: PropTypes.string,
-  page6: PropTypes.string,
-  page7: PropTypes.string,
   mode: PropTypes.string.isRequired,
-  togglemode: PropTypes.func.isRequired,
+  toggleMode: PropTypes.func.isRequired,
 };
 
 NavBar.defaultProps = {
@@ -149,6 +116,4 @@ NavBar.defaultProps = {
   page3: "Services",
   page4: "Portfolio",
   page5: "Blog",
-  page6: "Contact",
-  page7: "Help",
 };

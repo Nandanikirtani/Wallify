@@ -106,8 +106,8 @@ export default function Investment(props) {
           <p>
             <i>Every challenge gets you closer to your financial freedom.</i>
           </p>
-          <div className="d-flex justify-content-center mt-5">
-            <div className="col-4 m-3">
+          <div className="row g-4 justify-content-center">
+            <div className="col-12 col-md-6 col-lg-4">
               <div className="card p-0">
                 <div
                   className="card-header"
@@ -144,7 +144,7 @@ export default function Investment(props) {
               </div>
             </div>
 
-            <div className="col-4 m-3">
+            <div className="col-12 col-md-6 col-lg-4">
               <div className="card p-0">
                 <div
                   className="card-header"
@@ -181,7 +181,7 @@ export default function Investment(props) {
               </div>
             </div>
 
-            <div className="col-4 m-3">
+            <div className="col-12 col-md-6 col-lg-4">
               <div className="card p-0">
                 <div
                   className="card-header"
@@ -389,8 +389,8 @@ export default function Investment(props) {
 
         <div className="tab-pane fade" id="bonds" role="tabpanel">
           <h3 className="mt-5">Calculate your Smart Investments</h3>
-          <div className="d-flex justify-content-center mt-5">
-            <div className="col-6 m-3 border border-primary p-3">
+          <div className="m-4 row g-4 justify-content-center">
+            <div className="col-12 col-md-6 col-lg-4 m-3 border border-primary p-3">
               <h4>SIP Calculator</h4>
               <div className="mb-3 text-start">
                 <label>Monthly Investment (₹)</label>
@@ -429,7 +429,7 @@ export default function Investment(props) {
                 </div>
               )}
             </div>
-            <div className="col-6 m-3 border border-primary p-4">
+            <div className="col-12 col-md-6 col-lg-4 m-3 border border-primary p-4">
               <h4>FD Return Estimator</h4>
               <div className="mb-3 text-start">
                 <label>Deposit Amount (₹)</label>

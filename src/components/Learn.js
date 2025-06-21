@@ -29,10 +29,9 @@ export default function Learn(props) {
       <p className="text-center mt-1" style={{ color: cardColor }}>
         Master Your Money, One Lesson at a Time
       </p>
-      <div className="d-flex">
+      <div className="row">
         <div className="col-12 col-lg-7">
-          <div className="row m-3">
-            <div className="card p-0">
+            <div className="card mt-4 p-0">
               <div
                 className="card-header "
                 style={{ backgroundColor: "#02939c", color: "white" }}
@@ -133,9 +132,8 @@ export default function Learn(props) {
                 </button>
               </div>
             </div>
-          </div>
-          <div className="row mt-5 m-3">
-            <div className="card p-0">
+          
+            <div className="card mt-4 p-0">
               <div
                 className="card-header "
                 style={{ backgroundColor: "#02939c", color: "white" }}
@@ -216,11 +214,11 @@ export default function Learn(props) {
                 </button>
               </div>
             </div>
-          </div>
         </div>
+        
 
         <div className="col-12 col-lg-5 mt-4 mt-lg-0">
-          <div className="card m-3 p-0" style={{ height: "500px" }}>
+          <div className="card m-4 p-0" style={{ minHeight: "500px" }}>
             <div
               className="card-header text-center"
               style={{ backgroundColor: "#ba181b", color: "white" }}
