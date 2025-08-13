@@ -11,6 +11,7 @@ export default function Investment(props) {
   const [years, setYears] = useState("");
   const [result, setResult] = useState(null);
 
+
   const calculateSIP = () => {
     const P = parseFloat(monthlyInvestment);
     const r = parseFloat(annualReturnRate) / 12 / 100;

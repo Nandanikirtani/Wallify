@@ -18,6 +18,32 @@ export default function Budget(props) {
 
   const totalIncome1 = Number(income2) + Number(extraIncome1);
 
+  React.useEffect(() => {
+    const onWheel = () => {
+      const el = document.activeElement;
+      if (el && el.tagName === "INPUT" && el.type === "number") {
+        el.blur(); 
+      }
+    };
+    const onKeyDown = (e) => {
+      if (
+        (e.key === "ArrowUp" || e.key === "ArrowDown") &&
+        document.activeElement &&
+        document.activeElement.tagName === "INPUT" &&
+        document.activeElement.type === "number"
+      ) {
+        e.preventDefault(); 
+      }
+    };
+    window.addEventListener("wheel", onWheel, { passive: true });
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
+
   function calculateSubtotal() {
     const ids = [
       "rent",
