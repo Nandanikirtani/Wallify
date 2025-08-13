@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import { useState } from "react";
 
 export default function TextForm() {
   
+  const [createAccount, setCreateAccount] = useState(false);
 
   return (
     <div className="container-fluid mt-3 py-5" style={{backgroundColor:"#e2eafc"}}>
@@ -24,7 +25,7 @@ export default function TextForm() {
               backgroundColor: "#4f000b",
             }}
           >
-            <h1 className="text-center mb-4">Login</h1>
+            <h1 className="text-center mb-4">{createAccount ? 'Create Account' : 'Login'}</h1>
 
             <div className="mb-3">
               <label htmlFor="exampleFormControlInput1" className="form-label">
@@ -46,15 +47,19 @@ export default function TextForm() {
             </div>
 
             <p className="my-4 text-center">
-              By creating an account, you agree to Wallify's <u>Privacy Policy</u> and <u>Terms of Service</u>.
+              {createAccount ? (
+                <>By creating an account, you agree to Wallify's <u>Privacy Policy</u> and <u>Terms of Service</u>.</>
+              ):(
+                <>By Logging in, you agree to Wallify's <u>Privacy Policy</u> and <u>Terms of Service</u>.</>
+              )}
             </p>
 
-            <button type="button" className="btn btn-warning w-100 mb-3">
-              Login
+            <button type="button" className="btn btn-warning w-100 mb-3" onClick={() => alert(`${createAccount ? 'Creating account ...' : 'Logging in ...'}`)}>
+              {createAccount ? 'Create Account' : 'Login'}
             </button>
 
             <p className="text-center">--------or--------</p>
-            <p className="text-center mb-3">Login using</p>
+            <p className="text-center mb-3">{createAccount ? 'Create an account with' : 'Login with'}</p>
 
             <div className="d-flex justify-content-center gap-3">
               <button className="btn btn-light rounded-5 px-3">
@@ -66,10 +71,21 @@ export default function TextForm() {
             </div>
 
             <div className="d-flex justify-content-center align-items-center gap-2 mt-4">
-              <p className="mb-0 text-white">Don't have an account?</p>
-              <a className="text-white text-decoration-underline" href="#">
-                Create new account
-              </a>
+              {createAccount ? (
+                <>
+                  <p className="mb-0 text-white">Already have an account?</p>
+                  <div className="text-white text-decoration-underline" style={{ cursor: "pointer" }} onClick={() => setCreateAccount(false)}>
+                    Login
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="mb-0 text-white">Don't have an account?</p>
+                  <div className="text-white text-decoration-underline" style={{ cursor: "pointer" }} onClick={() => setCreateAccount(true)}>
+                    Create new account
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

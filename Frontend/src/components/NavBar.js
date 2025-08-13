@@ -62,9 +62,11 @@ export default function NavBar(props) {
             <Link to="/login">
               <button type="button" className="btn btn-danger">Log in</button>
             </Link>
+            {/* Added create account to TextForm component, accessible by pressing 'create new account'm from there
             <Link to="/login">
               <button type="button" className="btn btn-light">Sign up</button>
             </Link>
+            */}
 
             {/* Toggle Dark Mode */}
             <div className="form-check form-switch text-white mx-2">
