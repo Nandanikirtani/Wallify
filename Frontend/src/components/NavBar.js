@@ -62,7 +62,7 @@ export default function NavBar(props) {
             <Link to="/login">
               <button type="button" className="btn btn-danger">Log in</button>
             </Link>
-            <Link to="/login">
+            <Link to="/signup">
               <button type="button" className="btn btn-light">Sign up</button>
             </Link>
 
