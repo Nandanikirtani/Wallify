@@ -8,19 +8,22 @@ import Footer from "./components/Footer";
 import Learn from "./components/Learn";
 import Investment from "./components/Investment";
 import Community from "./components/Community";
+import UserDashboard from "./components/UserDashboard";
+
+import UserProvider from "./context/UserContextProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
+// import UserProvider from "./context/UserContextProvider";
 
-// AppContent handles the layout
 function AppContent({ mode, toggleMode }) {
   const location = useLocation();
   const hideNavFooter = ["/login", "/signup"].includes(location.pathname);
 
   return (
     <>
-      {/* NavBar */}
+    <UserProvider>
       {!hideNavFooter && (
         <NavBar
           page1="Home"
@@ -33,7 +36,6 @@ function AppContent({ mode, toggleMode }) {
         />
       )}
 
-      {/* Main Routes */}
       <Routes>
         <Route path="/" element={<Home mode={mode} />} />
         <Route path="/login" element={<AuthForm />} />
@@ -42,20 +44,20 @@ function AppContent({ mode, toggleMode }) {
         <Route path="/budget" element={<Budget mode={mode} />} />
         <Route path="/investment" element={<Investment mode={mode} />} />
         <Route path="/community" element={<Community mode={mode} />} />
+        <Route path="/dashboard" element={<UserDashboard />} />
       </Routes>
 
-      {/* Footer */}
       {!hideNavFooter && <Footer />}
+      </UserProvider>
     </>
   );
 }
 
-// Main App component
 function App() {
   const [mode, setMode] = useState("light");
 
   const toggleMode = () => {
-    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+    setMode((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   useEffect(() => {
@@ -65,7 +67,9 @@ function App() {
 
   return (
     <HashRouter>
-      <AppContent mode={mode} toggleMode={toggleMode} />
+      <UserProvider>
+        <AppContent mode={mode} toggleMode={toggleMode} />
+      </UserProvider>
     </HashRouter>
   );
 }

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import  UserContext  from "../context/UserContext";
 import API from "../api/api"; // your axios instance
 
 export default function AuthForm({ showSocialLogin = true }) {
   const navigate = useNavigate();
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
+
+  const { setUser } = useContext(UserContext);
 
   // State for inputs
   const [email, setEmail] = useState("");
@@ -19,6 +22,8 @@ export default function AuthForm({ showSocialLogin = true }) {
     try {
       if (isLoginPage) {
         const res = await API.post("/user/login", { email, password });
+        console.log(res.data.data);
+        setUser(res.data.data); 
         alert("Logged in successfully!");
       } else {
         const username = email.split("@")[0];
@@ -32,7 +37,7 @@ export default function AuthForm({ showSocialLogin = true }) {
         alert("Registered successfully!");
         navigate("/login"); // go to login after signup
       }
-      navigate("/"); // go to home after login
+      navigate("/dashboard"); // go to home after login
     } catch (err) {
       alert(err.response?.data?.message || "Something went wrong");
       console.error(err);
