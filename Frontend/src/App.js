@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, HashRouter, useLocation } from "react-router-dom";
+import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import AuthForm from "./components/AuthForm";
@@ -9,13 +9,13 @@ import Learn from "./components/Learn";
 import Investment from "./components/Investment";
 import Community from "./components/Community";
 import UserDashboard from "./components/UserDashboard";
+import Profile from "./components/Profile";
 
 import UserProvider from "./context/UserContextProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
-// import UserProvider from "./context/UserContextProvider";
 
 function AppContent({ mode, toggleMode }) {
   const location = useLocation();
@@ -23,7 +23,6 @@ function AppContent({ mode, toggleMode }) {
 
   return (
     <>
-    <UserProvider>
       {!hideNavFooter && (
         <NavBar
           page1="Home"
@@ -45,10 +44,10 @@ function AppContent({ mode, toggleMode }) {
         <Route path="/investment" element={<Investment mode={mode} />} />
         <Route path="/community" element={<Community mode={mode} />} />
         <Route path="/dashboard" element={<UserDashboard />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
 
       {!hideNavFooter && <Footer />}
-      </UserProvider>
     </>
   );
 }
@@ -66,11 +65,11 @@ function App() {
   }, [mode]);
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <UserProvider>
         <AppContent mode={mode} toggleMode={toggleMode} />
       </UserProvider>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 

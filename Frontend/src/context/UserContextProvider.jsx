@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UserContext from "./UserContext";
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // 'setUser' will be called after login to store username, email, etc.
+  useEffect(() => {
+    const saved = localStorage.getItem("user");
+    if (saved) {
+      setUser(JSON.parse(saved));
+    }
+  }, []);
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}

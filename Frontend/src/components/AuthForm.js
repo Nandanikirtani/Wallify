@@ -24,7 +24,7 @@ export default function AuthForm({ showSocialLogin = true }) {
         const res = await API.post("/user/login", { email, password });
         console.log(res.data.data);
         setUser(res.data.data); 
-        alert("Logged in successfully!");
+        localStorage.setItem("user", JSON.stringify(res.data.data));
       } else {
         const username = email.split("@")[0];
         const res = await API.post("/user/register", {
@@ -34,7 +34,6 @@ export default function AuthForm({ showSocialLogin = true }) {
           password,
           role: "user",
         });
-        alert("Registered successfully!");
         navigate("/login"); // go to login after signup
       }
       navigate("/dashboard"); // go to home after login
