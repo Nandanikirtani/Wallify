@@ -1,12 +1,14 @@
-import React, { useState,useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import  UserContext  from "../context/UserContext";
+import React, { useState, useContext } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import UserContext from "../context/UserContext";
 import API from "../api/api"; // your axios instance
+
 
 export default function AuthForm({ showSocialLogin = true }) {
   const navigate = useNavigate();
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
+  const from = location.state?.from || "/dashboard";
 
   const { setUser } = useContext(UserContext);
 
@@ -23,8 +25,9 @@ export default function AuthForm({ showSocialLogin = true }) {
       if (isLoginPage) {
         const res = await API.post("/user/login", { email, password });
         console.log(res.data.data);
-        setUser(res.data.data); 
+        setUser(res.data.data);
         localStorage.setItem("user", JSON.stringify(res.data.data));
+          navigate(from, { replace: true });
       } else {
         const username = email.split("@")[0];
         const res = await API.post("/user/register", {
@@ -36,7 +39,7 @@ export default function AuthForm({ showSocialLogin = true }) {
         });
         navigate("/login"); // go to login after signup
       }
-      navigate("/dashboard"); // go to home after login
+      // navigate("/dashboard"); // go to home after login
     } catch (err) {
       alert(err.response?.data?.message || "Something went wrong");
       console.error(err);
@@ -45,22 +48,34 @@ export default function AuthForm({ showSocialLogin = true }) {
   };
 
   return (
-    <div className="container-fluid mt-3 py-5" style={{ backgroundColor: "#e2eafc" }}>
+    <div
+      className="container-fluid mt-3 py-5"
+      style={{ backgroundColor: "#e2eafc" }}
+    >
       <div className="row justify-content-center align-items-center">
         {/* Left Text Column */}
         <div className="col-lg-6 col-md-10 text-center text-lg-start px-5 mb-5 mb-lg-0">
-          <h1 className="fw-bold" style={{ color: "#4f000b", fontSize: "50px" }}>
+          <h1
+            className="fw-bold"
+            style={{ color: "#4f000b", fontSize: "50px" }}
+          >
             Welcome to Wallify
           </h1>
           <h5 className="mt-4" style={{ color: "#4f000b" }}>
-            Track your expenses, plan your budget, and invest smartly <br />— all in one place.
+            Track your expenses, plan your budget, and invest smartly <br />—
+            all in one place.
           </h5>
         </div>
 
         {/* Auth Form */}
         <div className="col-lg-4 col-md-8">
-          <div className="p-4 rounded-3 text-white" style={{ backgroundColor: "#4f000b" }}>
-            <h1 className="text-center mb-4">{isLoginPage ? "Login" : "Sign Up"}</h1>
+          <div
+            className="p-4 rounded-3 text-white"
+            style={{ backgroundColor: "#4f000b" }}
+          >
+            <h1 className="text-center mb-4">
+              {isLoginPage ? "Login" : "Sign Up"}
+            </h1>
 
             {/* Signup: Full Name */}
             {!isLoginPage && (
@@ -128,12 +143,22 @@ export default function AuthForm({ showSocialLogin = true }) {
               {isLoginPage ? (
                 <>
                   <p className="mb-0 text-white">Don't have an account?</p>
-                  <a className="text-white text-decoration-underline" href="#/signup">Create new account</a>
+                  <Link
+                    className="text-white text-decoration-underline"
+                    to="/signup"
+                  >
+                    Create new account
+                  </Link>
                 </>
               ) : (
                 <>
                   <p className="mb-0 text-white">Already have an account?</p>
-                  <a className="text-white text-decoration-underline" href="#/login">Login here</a>
+                  <Link
+                    className="text-white text-decoration-underline"
+                    to="/login"
+                  >
+                    Login here
+                  </Link>
                 </>
               )}
             </div>

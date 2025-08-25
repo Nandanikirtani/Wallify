@@ -10,7 +10,7 @@ export default function Investment(props) {
   const [annualReturnRate, setAnnualReturnRate] = useState("");
   const [years, setYears] = useState("");
   const [result, setResult] = useState(null);
-
+   const [active, setActive] = useState("challenges"); 
 
   const calculateSIP = () => {
     const P = parseFloat(monthlyInvestment);
@@ -64,6 +64,7 @@ export default function Investment(props) {
       data-bs-target="#stocks"
       type="button"
       role="tab"
+      onClick={() => setActive("challenges")}
     >
       Challenges
     </button>
@@ -77,6 +78,7 @@ export default function Investment(props) {
       data-bs-target="#mutual"
       type="button"
       role="tab"
+      onClick={() => setActive("invest")}
     >
       Invest
     </button>
@@ -90,6 +92,7 @@ export default function Investment(props) {
       data-bs-target="#bonds"
       type="button"
       role="tab"
+      onClick={() => setActive("tools")}
     >
       Tools
     </button>
@@ -98,7 +101,7 @@ export default function Investment(props) {
 
 
       <div className="tab-content text-center" id="investment-tabs-content">
-        <div
+        {active === "challenges" && <div
           className="tab-pane fade show active mt-5"
           id="stocks"
           role="tabpanel"
@@ -220,8 +223,9 @@ export default function Investment(props) {
             </div>
           </div>
         </div>
+    }
 
-        <div className="tab-pane fade" id="mutual" role="tabpanel">
+        {active === "invest" &&<div className="tab-pane fade" id="mutual" role="tabpanel">
           <h4 className="mt-5">Grow Your Money Through Smart Investments</h4>
           <p>Money sitting idle loses value — investing helps it grow!</p>
 
@@ -250,6 +254,7 @@ export default function Investment(props) {
                 </div>
               </div>
             </div>
+            
 
             {/* SIP */}
             <div className="accordion-item">
@@ -387,8 +392,8 @@ export default function Investment(props) {
             </a>
           </div>
         </div>
-
-        <div className="tab-pane fade" id="bonds" role="tabpanel">
+}
+        {active === "tools" && <div className="tab-pane fade" id="bonds" role="tabpanel">
           <h3 className="mt-5">Calculate your Smart Investments</h3>
           <div className="m-4 row g-4 justify-content-center">
             <div className="col-12 col-md-6 col-lg-4 m-3 border border-primary p-3">
@@ -488,6 +493,7 @@ export default function Investment(props) {
             </div>
           </div>
         </div>
+}
       </div>
     </div>
   );

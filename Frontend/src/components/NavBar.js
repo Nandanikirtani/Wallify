@@ -43,7 +43,7 @@ export default function NavBar(props) {
       <div className="container-fluid">
         <a
           className="navbar-brand d-flex align-items-center text-white"
-          href="/"
+          To="/"
         >
           <img
             src={`${process.env.PUBLIC_URL}/logo.png`}
@@ -141,22 +141,52 @@ export default function NavBar(props) {
             ></i>
             <ul className="dropdown-menu dropdown-menu-end">
               <li>
-                <a className="dropdown-item" href="/profile">
+                <Link className="dropdown-item" to="/profile">
                   Profile
-                </a>
+                </Link>
+              </li>
+               <li>
+                <Link className="dropdown-item" to="/dashboard">
+                  Dashboard
+                </Link>
               </li>
               <li>
-                <a className="dropdown-item" href="#">
+                <Link className="dropdown-item" to="/budget">
+                  Expense Tracker
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/investment">
+                  Calculators
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/investment">
+                  Challenges
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/investement">
+                  Invest
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/learn">
+                  Learning Hub
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="#">
                   Settings
-                </a>
+                </Link>
               </li>
               <li>
                 <hr className="dropdown-divider" />
               </li>
               <li>
-                <a className="dropdown-item" href="#" onClick={handleLogout}>
+                <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   Logout
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

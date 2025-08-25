@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import AuthForm from "./components/AuthForm";
@@ -43,8 +44,22 @@ function AppContent({ mode, toggleMode }) {
         <Route path="/budget" element={<Budget mode={mode} />} />
         <Route path="/investment" element={<Investment mode={mode} />} />
         <Route path="/community" element={<Community mode={mode} />} />
-        <Route path="/dashboard" element={<UserDashboard />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <UserDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       {!hideNavFooter && <Footer />}
@@ -65,7 +80,7 @@ function App() {
   }, [mode]);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/Wallify">
       <UserProvider>
         <AppContent mode={mode} toggleMode={toggleMode} />
       </UserProvider>

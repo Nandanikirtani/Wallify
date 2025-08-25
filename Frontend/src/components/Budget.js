@@ -1,105 +1,84 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useContext } from "react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import { Link,useLocation } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 export default function Budget(props) {
+  const location = useLocation();
   const textColor = props.mode === "dark" ? "#fffbeb" : "black";
   const cardColor = "#a47148"; // Same for both modes
   const butColor = props.mode === "light" ? "white" : "black";
-  const labelColor = props.mode === "light" ? "#006d77" : "#38a3a5";
+  const labelColor = props.mode === "light" ? "#acacf1ff" : "#006d77";
 
-  const [income1, setIncome1] = useState("");
-  const [extraIncome, setExtraIncome] = useState("");
-  const [saving, setSaving] = useState(0);
+ const { user } = useContext(UserContext); // <-- get user from context
+  const isLoggedIn = !!user;
 
-  const totalIncome = Number(income1) + Number(extraIncome);
 
-  const [income2, setIncome2] = useState("");
-  const [extraIncome1, setExtraIncome1] = useState("");
 
-  const totalIncome1 = Number(income2) + Number(extraIncome1);
+  const [income, setIncome] = useState();
+  const [expenses, setExpenses] = useState([]);
+  const [form, setForm] = useState({
+    amount: "",
+    category: "",
+    description: "",
+    date: "",
+  });
 
-  React.useEffect(() => {
-    const onWheel = () => {
-      const el = document.activeElement;
-      if (el && el.tagName === "INPUT" && el.type === "number") {
-        el.blur(); 
-      }
-    };
-    const onKeyDown = (e) => {
-      if (
-        (e.key === "ArrowUp" || e.key === "ArrowDown") &&
-        document.activeElement &&
-        document.activeElement.tagName === "INPUT" &&
-        document.activeElement.type === "number"
-      ) {
-        e.preventDefault(); 
-      }
-    };
-    window.addEventListener("wheel", onWheel, { passive: true });
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("keydown", onKeyDown);
-    };
+  // Handle input change
+  const handleChange = (e) => {
+    e.preventDefault();
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // Add expense
+  const addExpense = (e) => {
+    e.preventDefault();
+    if (!form.amount || !form.category) return;
+    setExpenses([...expenses, form]);
+    setForm({ amount: "", category: "", description: "", date: "" });
+  };
+
+  // Calculate totals
+  const totalExpenses = expenses.reduce(
+    (sum, exp) => sum + Number(exp.amount),
+    0
+  );
+  const savings = income - totalExpenses;
+
+  const COLORS = [
+  "#4E79A7", // Blue
+  "#F28E2B", // Orange
+  "#E15759", // Red
+  "#76B7B2", // Teal
+  "#59A14F", // Green
+  "#EDC949", // Yellow
+  "#B07AA1"  // Purple
+];
+
+
+  const chartData = expenses.reduce((acc, exp) => {
+    const found = acc.find((item) => item.name === exp.category);
+    if (found) {
+      found.value += Number(exp.amount);
+    } else {
+      acc.push({ name: exp.category, value: Number(exp.amount) });
+    }
+    return acc;
   }, []);
 
+  chartData.push({
+  name: "Savings",
+  value: savings > 0 ? savings : 0
+});
 
-  function calculateSubtotal() {
-    const ids = [
-      "rent",
-      "phone",
-      "electricity",
-      "gas",
-      "water",
-      "cable",
-      "waste",
-      "repair",
-      "supplies",
-      "other",
-    ];
-
-    let total = 0;
-    ids.forEach((id) => {
-      const val = parseFloat(document.getElementById(id)?.value) || 0;
-      total += val;
-    });
-
-    document.getElementById("subtotal").value = total;
-    return total;
-  }
-
-  function calculateSubtotal1() {
-    const ids2 = ["video", "cd", "movie", "concert", "sport", "other1"];
-    let totalSum = 0;
-    ids2.forEach((id2) => {
-      let val = parseFloat(document.getElementById(id2)?.value) || 0;
-      totalSum += val;
-    });
-    document.getElementById("subtotal1").value = totalSum;
-    return totalSum;
-  }
-
-  function calculateSubtotal2() {
-    const ids3 = ["vehicle", "bus", "insurance", "licensing", "fuel", "other2"];
-    let totalsum1 = 0;
-    ids3.forEach((id3) => {
-      let val = parseFloat(document.getElementById(id3)?.value) || 0;
-      totalsum1 += val;
-    });
-    document.getElementById("subtotal2").value = totalsum1;
-    return totalsum1;
-  }
-
-  function calculateSaving() {
-    const totalExpenses =
-      calculateSubtotal() +
-      calculateSubtotal1() +
-      calculateSubtotal2();
-    console.log(totalExpenses);
-    console.log(totalIncome1);
-    const remaining = totalIncome1 - totalExpenses;
-    setSaving(remaining >= 0 ? remaining : 0);
-  }
   return (
     <>
       <div className="container mt-0">
@@ -240,7 +219,7 @@ export default function Budget(props) {
       </div>
       {/*Budget tracker form */}
 
-      <div className="container ">
+      <div className=" ">
         <div className="row align-items-center">
           <div>
             <h2 className="text-center mt-5" style={{ color: textColor }}>
@@ -248,733 +227,198 @@ export default function Budget(props) {
             </h2>
           </div>
 
-          <div className="row m-auto gx-2 justify-content-center">
-            {/* Projected Monthly Income */}
-            <div
-              className="col-6 col-lg-auto text-center "
-              style={{ color: textColor }}
-            >
-              <div className="mt-2 ms-1">
-                <h5 className="fs-5 text-center mb-3">
-              <u>Projected Income</u>
-            </h5>
-
-                {/* Income 1 */}
-                <div className="input-group" style={{ height: "40px" }}>
-                  <label
-                    htmlFor="income1"
-                    className="form-label d-flex align-items-center px-2 border border-end-0 rounded-start"
-                    style={{
-                      color: butColor,
-                      backgroundColor: labelColor,
-                      width: "100px",
-                      fontSize: "14px",
-                      marginBottom: "0",
-                    }}
+          <div className="justify-content-center mt-4">
+            <div className="row justify-content-center">
+              {/* Expense Form */}
+              <div
+                className="col-md-3 m-4 border rounded-3 p-4 mb-4"
+                style={{ backgroundColor: labelColor }}
+              >
+                <h4>New Expense</h4>
+                <form onSubmit={addExpense}>
+                  <div className="mb-3">
+                    <label className="form-label">Amount *</label>
+                    <input
+                      type="number"
+                      name="amount"
+                      value={form.amount}
+                      onChange={handleChange}
+                      className="form-control"
+                      placeholder="$0.00"
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Date</label>
+                    <input
+                      type="date"
+                      name="date"
+                      value={form.date}
+                      onChange={handleChange}
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Category *</label>
+                    <select
+                      name="category"
+                      value={form.category}
+                      onChange={handleChange}
+                      className="form-select"
+                    >
+                      <option value="">Select a category</option>
+                      <option>Housing</option>
+                      <option>Food</option>
+                      <option>Transport</option>
+                      <option>Bills</option>
+                      <option>Loans</option>
+                      <option>Entertainment</option>
+                      <option>Others</option>
+                    </select>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Description</label>
+                    <textarea
+                      name="description"
+                      value={form.description}
+                      onChange={handleChange}
+                      className="form-control"
+                      rows="2"
+                    ></textarea>
+                  </div>
+                  <button type="submit" className="btn btn-primary me-2">
+                    Add Expense
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() =>
+                      setForm({
+                        amount: "",
+                        category: "",
+                        description: "",
+                        date: "",
+                      })
+                    }
                   >
-                    Income 1
-                  </label>
+                    Clear
+                  </button>
+                </form>
+              </div>
+
+              {/* Monthly Budget */}
+              <div
+                className="col-md-3 m-4 border rounded-3 p-4 mb-4"
+                style={{ backgroundColor: labelColor }}
+              >
+                <h4>Monthly Budget</h4>
+
+                {/* Add income */}
+                <div className="mb-3">
+                  <label className="form-label">Monthly Income</label>
                   <input
                     type="number"
-                    className="form-control border border-start-0 rounded-end"
-                    id="income1"
-                    value={income1}
-                    onChange={(e) => setIncome1(e.target.value)}
-                    style={{ height: "100%", fontSize: "14px" }}
+                    className="form-control"
+                    value={income}
+                    onChange={(e) => setIncome(Number(e.target.value))}
+                    placeholder="Enter income"
                   />
                 </div>
 
-                {/* Extra Income */}
-                <div
-                  className="input-group"
-                  style={{ height: "40px", marginTop: "0" }}
-                >
-                  <label
-                    htmlFor="extraIncome"
-                    className="form-label d-flex align-items-center px-2 border border-end-0 rounded-start"
-                    style={{
-                      color: butColor,
-                      backgroundColor: labelColor,
-                      width: "100px",
-                      fontSize: "14px",
-                      marginBottom: "0",
-                    }}
-                  >
-                    Extra
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control border border-start-0 rounded-end"
-                    id="extraIncome"
-                    value={extraIncome}
-                    onChange={(e) => setExtraIncome(e.target.value)}
-                    style={{ height: "100%", fontSize: "14px" }}
-                  />
-                </div>
+                {/* Show expenses */}
+                <table className="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {expenses.map((exp, index) => (
+                      <tr key={index}>
+                        <td>{exp.category}</td>
+                        <td>${exp.amount}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
 
-                {/* Total Income */}
-                <div
-                  className="input-group"
-                  style={{ height: "40px", marginTop: "0" }}
+                {/* Totals */}
+                <p>
+                  <strong>Total Expenses:</strong> ${totalExpenses}
+                </p>
+                <p>
+                  <strong>Savings:</strong> ${savings}
+                </p>
+              </div>
+
+              {/* Dummy Chart */}
+              <div className="col-md-3 m-4 border border-black rounded-3 p-4 mb-4 text-center">
+                <h4
+                  className="p-2 w-100 text-center"
+                  style={{ backgroundColor: labelColor }}
                 >
-                  <label
-                    htmlFor="totalIncome"
-                    className="form-label d-flex align-items-center px-2 border border-end-0 rounded-start"
+                  Spending Report
+                </h4>
+
+                <div style={{ position: "relative", marginTop: "50px" }}>
+                  <div
                     style={{
-                      color: butColor,
-                      backgroundColor: labelColor,
-                      width: "100px",
-                      fontSize: "14px",
-                      marginBottom: "0",
+                      height: "200px",
+                      borderRadius: "8px",
+                      overflow: "hidden",
                     }}
                   >
-                    Total
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control border border-start-0 rounded-end"
-                    id="totalIncome"
-                    value={totalIncome}
-                    readOnly
-                    style={{ height: "100%", fontSize: "14px" }}
-                  />
+                    <ResponsiveContainer width="100%" height={200}>
+                      <PieChart>
+                        <Pie
+                          data={chartData}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={80}
+                          fill="#8884d8"
+                          label
+                        >
+                          {chartData.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={COLORS[index % COLORS.length]}
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+
+                  {!isLoggedIn && (
+                    <div
+                      className="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center rounded-3"
+                      style={{
+                        backdropFilter: "blur(4px)",
+                        backgroundColor: "rgba(255, 255, 255, 0.5)",
+                      }}
+                    >
+                      <p className="text-muted mb-2">
+                        Unlock full report by logging in
+                      </p>
+                      <Link
+                        className="text-black text-decoration-underline"
+                        to="/login"
+                        state={{ from: location.pathname }}
+                      >
+                        Login here
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
-
-            {/* Actual Monthly Income */}
-            <div
-              className="col-6 col-lg-auto text-center text-start "
-              style={{ color: textColor }}
-            >
-              <div className="mt-2 ms-1">
-                <h5 className="fs-5 text-center mb-3">
-              <u>Actual Monthly Income</u>
-            </h5>
-
-                {/* Income 1 */}
-                <div className="input-group" style={{ height: "40px" }}>
-                  <label
-                    htmlFor="income1Actual"
-                    className="form-label d-flex align-items-center px-2 rounded-start"
-                    style={{
-                      color: butColor,
-                      backgroundColor: labelColor,
-                      width: "100px",
-                      fontSize: "14px",
-                      marginBottom: "0",
-                    }}
-                  >
-                    Income 1
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control border border-start-0 rounded-end"
-                    id="income1Actual"
-                    value={income2}
-                    onChange={(e) => setIncome2(e.target.value)}
-                    style={{ height: "100%", fontSize: "14px" }}
-                  />
-                </div>
-
-                {/* Extra Income */}
-                <div
-                  className="input-group"
-                  style={{ height: "40px", marginTop: "0" }}
-                >
-                  <label
-                    htmlFor="extraIncome1"
-                    className="form-label d-flex align-items-center px-2 rounded-start"
-                    style={{
-                      color: butColor,
-                      backgroundColor: labelColor,
-                      width: "100px",
-                      fontSize: "14px",
-                      marginBottom: "0",
-                    }}
-                  >
-                    Extra
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control border border-start-0 rounded-end"
-                    id="extraIncome1"
-                    value={extraIncome1}
-                    onChange={(e) => setExtraIncome1(e.target.value)}
-                    style={{ height: "100%", fontSize: "14px" }}
-                  />
-                </div>
-
-                {/* Total Income */}
-                <div
-                  className="input-group"
-                  style={{ height: "40px", marginTop: "0" }}
-                >
-                  <label
-                    htmlFor="totalIncome1"
-                    className="form-label d-flex align-items-center px-2 rounded-start"
-                    style={{
-                      color: butColor,
-                      backgroundColor: labelColor,
-                      width: "100px",
-                      fontSize: "14px",
-                      marginBottom: "0",
-                    }}
-                  >
-                    Total
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control border border-start-0 rounded-end"
-                    id="totalIncome1"
-                    value={totalIncome1}
-                    readOnly
-                    style={{ height: "100%", fontSize: "14px" }}
-                  />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-
-      <div className="row m-3 gx-3 gy-4 px-2">
-        <div
-          className="col-12 col-md-6 col-lg-4 mt-3"
-          style={{ color: textColor }}
-        >
-          <div className="px-2">
-            <h5 className="fs-5 text-center mb-3">
-              <u>Housing</u>
-            </h5>
-            <div
-              className="mb-0 d-flex input-group mt-3"
-              style={{ height: "50px" }}
-            >
-              <label
-                htmlFor="rent"
-                className="form-label d-flex align-items-center px-3 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Rent
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="rent"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="phone"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Phone
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="phone"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="extra"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Electricity
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="electricity"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="gas"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Gas
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="gas"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="Water"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Water and Sewer
-              </label>
-
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="water"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="others"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Others
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="other"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="subtotal"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Subtotal
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="subtotal"
-                placeholder=""
-                style={{ width: "30px" }}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="col-12 col-md-6 col-lg-4 mt-3"
-          style={{ color: textColor }}
-        >
-          <div className="px-2">
-            <h5 className="fs-5 text-center mb-3">
-              <u>Transportation</u>
-            </h5>
-            <div
-              className="mb-0 d-flex input-group mt-3"
-              style={{ height: "50px" }}
-            >
-              <label
-                htmlFor="vehicle"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "130px",
-                  marginBottom: 0,
-                }}
-              >
-                Vehicle
-              </label>
-              <input
-                type="number"
-                className="form-control border border-start-0 rounded-end"
-                id="vehicle"
-                placeholder=""
-                onChange={calculateSubtotal2}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="bus"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "130px",
-                  marginBottom: 0,
-                }}
-              >
-                Bus/taxi fare
-              </label>
-              <input
-                type="number"
-                className="form-control border border-start-0 rounded-end"
-                id="bus"
-                onChange={calculateSubtotal2}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="insurance"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "130px",
-                  marginBottom: 0,
-                }}
-              >
-                Insurance
-              </label>
-              <input
-                type="number"
-                className="form-control border border-start-0 rounded-end"
-                id="insurance"
-                onChange={calculateSubtotal2}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="licensing"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "130px",
-                  marginBottom: 0,
-                }}
-              >
-                Licensing
-              </label>
-              <input
-                type="number"
-                className="form-control border border-start-0 rounded-end"
-                id="licensing"
-                onChange={calculateSubtotal2}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="fuel"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "130px",
-                  marginBottom: 0,
-                }}
-              >
-                Fuel
-              </label>
-              <input
-                type="number"
-                className="form-control border border-start-0 rounded-end"
-                id="fuel"
-                onChange={calculateSubtotal2}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="others"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "130px",
-                  marginBottom: 0,
-                }}
-              >
-                Others
-              </label>
-              <input
-                type="number"
-                className="form-control border border-start-0 rounded-end"
-                id="other2"
-                onChange={calculateSubtotal2}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="subtotal"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "130px",
-                  marginBottom: 0,
-                }}
-              >
-                Subtotal
-              </label>
-              <input
-                type="number"
-                className="form-control border border-start-0 rounded-end"
-                id="subtotal2"
-                placeholder=""
-              />
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="col-12 col-md-6 col-lg-4 mt-3"
-          style={{ color: textColor }}
-        >
-          <div className="px-2">
-            <h5 className="fs-5 text-center mb-3">
-              <u>Entertainment</u>
-            </h5>
-            <div
-              className="mb-0 d-flex input-group mt-3"
-              style={{ height: "50px" }}
-            >
-              <label
-                htmlFor="video"
-                className="form-label d-flex align-items-center px-3 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Video/DVDs
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="video"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal1}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="cd"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                CDs
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="cd"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal1}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="movies"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Movies
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="movie"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal1}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="concert"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Concerts
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="concert"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal1}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="sport"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Sports
-              </label>
-
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="sport"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal1}
-              />
-            </div>
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="other"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Others
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="other1"
-                placeholder=""
-                style={{ width: "30px" }}
-                onInput={calculateSubtotal1}
-              />
-            </div>
-
-            <div className="d-flex input-group" style={{ height: "50px" }}>
-              <label
-                htmlFor="subtotal"
-                className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-                style={{
-                  color: butColor,
-                  backgroundColor: labelColor,
-                  width: "150px",
-                  marginBottom: 0,
-                }}
-              >
-                Subtotal
-              </label>
-              <input
-                type="number"
-                className="form-control text-center border-dark"
-                id="subtotal1"
-                placeholder=""
-                style={{ width: "30px" }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="container">
-  <div className="row justify-content-center" style={{ color: textColor }}>
-    <div className="col-12 col-md-8 col-lg-6">
-      <div className="mt-5 px-3 py-3 rounded shadow-sm" style={{ maxWidth: "100%", margin: "0 auto" }}>
-        <h5 className="fs-4 text-center mb-3">
-          <u>Savings</u>
-        </h5>
-
-        {/* Savings Input + Label */}
-        <div className="input-group" style={{ height: "50px" }}>
-          <label
-            htmlFor="save"
-            className="form-label d-flex align-items-center px-3 border border-end-0 rounded-start"
-            style={{
-              color: "white",
-              backgroundColor: "#9e2a2b",
-              width: "150px",
-              marginBottom: 0,
-            }}
-          >
-            Total Savings
-          </label>
-          <input
-            type="number"
-            className="form-control border border-start-0 rounded-end"
-            id="save"
-            value={saving}
-            readOnly
-            style={{ fontSize: "14px" }}
-          />
-        </div>
-
-        {/* Button */}
-        <div className="d-flex justify-content-center mt-3">
-          <button className="btn btn-outline-success" onClick={calculateSaving}>
-            Calculate Saving
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
     </>
   );
 }
