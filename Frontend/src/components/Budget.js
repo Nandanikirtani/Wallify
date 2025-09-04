@@ -1,5 +1,4 @@
-import React from "react";
-import { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   PieChart,
   Pie,
@@ -8,7 +7,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Link,useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import UserContext from "../context/UserContext";
 
 export default function Budget(props) {
@@ -18,10 +18,8 @@ export default function Budget(props) {
   const butColor = props.mode === "light" ? "white" : "black";
   const labelColor = props.mode === "light" ? "#acacf1ff" : "#006d77";
 
- const { user } = useContext(UserContext); // <-- get user from context
+  const { user } = useContext(UserContext);
   const isLoggedIn = !!user;
-
-
 
   const [income, setIncome] = useState();
   const [expenses, setExpenses] = useState([]);
@@ -54,15 +52,14 @@ export default function Budget(props) {
   const savings = income - totalExpenses;
 
   const COLORS = [
-  "#4E79A7", // Blue
-  "#F28E2B", // Orange
-  "#E15759", // Red
-  "#76B7B2", // Teal
-  "#59A14F", // Green
-  "#EDC949", // Yellow
-  "#B07AA1"  // Purple
-];
-
+    "#4E79A7",
+    "#F28E2B",
+    "#E15759",
+    "#76B7B2",
+    "#59A14F",
+    "#EDC949",
+    "#B07AA1",
+  ];
 
   const chartData = expenses.reduce((acc, exp) => {
     const found = acc.find((item) => item.name === exp.category);
@@ -75,20 +72,17 @@ export default function Budget(props) {
   }, []);
 
   chartData.push({
-  name: "Savings",
-  value: savings > 0 ? savings : 0
-});
+    name: "Savings",
+    value: savings > 0 ? savings : 0,
+  });
 
   return (
-    <>
+    <div style={{ paddingTop: "100px" }}>
+      {/* How it works section */}
       <div className="container mt-0">
         <div className="row align-items-center">
-          {/* Left Column: Accordion */}
           <div className="col-md-6">
-            <div
-              className="mb-4"
-              style={{ color: textColor, marginTop: "120px" }}
-            >
+            <div className="mb-4" style={{ color: textColor }}>
               <h1>How it works?</h1>
             </div>
             <div className="accordion" id="accordionExample">
@@ -202,223 +196,188 @@ export default function Budget(props) {
             </div>
           </div>
 
-          {/* Right Column: Image */}
           <div className="col-md-6 text-center">
             <img
               src={`${process.env.PUBLIC_URL}/Budget.png`}
               className="img-fluid"
               alt="Budget illustration"
-              style={{
-                maxWidth: "100%", // ensures responsiveness
-                height: "auto", // maintains aspect ratio
-                marginTop: "3rem", // use rem instead of px for responsiveness
-              }}
+              style={{ maxWidth: "100%", height: "auto", marginTop: "3rem" }}
             />
           </div>
         </div>
       </div>
-      {/*Budget tracker form */}
 
-      <div className=" ">
-        <div className="row align-items-center">
-          <div>
-            <h2 className="text-center mt-5" style={{ color: textColor }}>
-              Wallify your wallet – log your expense below!
-            </h2>
-          </div>
-
-          <div className="justify-content-center mt-4">
-            <div className="row justify-content-center">
-              {/* Expense Form */}
-              <div
-                className="col-md-3 m-4 border rounded-3 p-4 mb-4"
-                style={{ backgroundColor: labelColor }}
-              >
-                <h4>New Expense</h4>
-                <form onSubmit={addExpense}>
-                  <div className="mb-3">
-                    <label className="form-label">Amount *</label>
-                    <input
-                      type="number"
-                      name="amount"
-                      value={form.amount}
-                      onChange={handleChange}
-                      className="form-control"
-                      placeholder="$0.00"
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Date</label>
-                    <input
-                      type="date"
-                      name="date"
-                      value={form.date}
-                      onChange={handleChange}
-                      className="form-control"
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Category *</label>
-                    <select
-                      name="category"
-                      value={form.category}
-                      onChange={handleChange}
-                      className="form-select"
-                    >
-                      <option value="">Select a category</option>
-                      <option>Housing</option>
-                      <option>Food</option>
-                      <option>Transport</option>
-                      <option>Bills</option>
-                      <option>Loans</option>
-                      <option>Entertainment</option>
-                      <option>Others</option>
-                    </select>
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Description</label>
-                    <textarea
-                      name="description"
-                      value={form.description}
-                      onChange={handleChange}
-                      className="form-control"
-                      rows="2"
-                    ></textarea>
-                  </div>
-                  <button type="submit" className="btn btn-primary me-2">
-                    Add Expense
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() =>
-                      setForm({
-                        amount: "",
-                        category: "",
-                        description: "",
-                        date: "",
-                      })
-                    }
-                  >
-                    Clear
-                  </button>
-                </form>
+      {/* Three blocks */}
+      <div className="container-fluid mt-5">
+        <div className="row gx-3 m-4 justify-content-center">
+          {/* Expense Form */}
+          <motion.div
+            className="col-12 col-md-3 border rounded-3 p-4 m-3"
+            style={{ backgroundColor: labelColor }}
+            whileHover={{ scale: 1.03, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
+          >
+            <h4>New Expense</h4>
+            <form onSubmit={addExpense}>
+              <div className="mb-3">
+                <label className="form-label">Amount *</label>
+                <input
+                  type="number"
+                  name="amount"
+                  value={form.amount}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="$0.00"
+                />
               </div>
-
-              {/* Monthly Budget */}
-              <div
-                className="col-md-3 m-4 border rounded-3 p-4 mb-4"
-                style={{ backgroundColor: labelColor }}
-              >
-                <h4>Monthly Budget</h4>
-
-                {/* Add income */}
-                <div className="mb-3">
-                  <label className="form-label">Monthly Income</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={income}
-                    onChange={(e) => setIncome(Number(e.target.value))}
-                    placeholder="Enter income"
-                  />
-                </div>
-
-                {/* Show expenses */}
-                <table className="table table-sm">
-                  <thead>
-                    <tr>
-                      <th>Category</th>
-                      <th>Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {expenses.map((exp, index) => (
-                      <tr key={index}>
-                        <td>{exp.category}</td>
-                        <td>${exp.amount}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-
-                {/* Totals */}
-                <p>
-                  <strong>Total Expenses:</strong> ${totalExpenses}
-                </p>
-                <p>
-                  <strong>Savings:</strong> ${savings}
-                </p>
+              <div className="mb-3">
+                <label className="form-label">Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  value={form.date}
+                  onChange={handleChange}
+                  className="form-control"
+                />
               </div>
-
-              {/* Dummy Chart */}
-              <div className="col-md-3 m-4 border border-black rounded-3 p-4 mb-4 text-center">
-                <h4
-                  className="p-2 w-100 text-center"
-                  style={{ backgroundColor: labelColor }}
+              <div className="mb-3">
+                <label className="form-label">Category *</label>
+                <select
+                  name="category"
+                  value={form.category}
+                  onChange={handleChange}
+                  className="form-select"
                 >
-                  Spending Report
-                </h4>
-
-                <div style={{ position: "relative", marginTop: "50px" }}>
-                  <div
-                    style={{
-                      height: "200px",
-                      borderRadius: "8px",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <ResponsiveContainer width="100%" height={200}>
-                      <PieChart>
-                        <Pie
-                          data={chartData}
-                          dataKey="value"
-                          nameKey="name"
-                          cx="50%"
-                          cy="50%"
-                          outerRadius={80}
-                          fill="#8884d8"
-                          label
-                        >
-                          {chartData.map((entry, index) => (
-                            <Cell
-                              key={`cell-${index}`}
-                              fill={COLORS[index % COLORS.length]}
-                            />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
-
-                  {!isLoggedIn && (
-                    <div
-                      className="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center rounded-3"
-                      style={{
-                        backdropFilter: "blur(4px)",
-                        backgroundColor: "rgba(255, 255, 255, 0.5)",
-                      }}
-                    >
-                      <p className="text-muted mb-2">
-                        Unlock full report by logging in
-                      </p>
-                      <Link
-                        className="text-black text-decoration-underline"
-                        to="/login"
-                        state={{ from: location.pathname }}
-                      >
-                        Login here
-                      </Link>
-                    </div>
-                  )}
-                </div>
+                  <option value="">Select a category</option>
+                  <option>Housing</option>
+                  <option>Food</option>
+                  <option>Transport</option>
+                  <option>Bills</option>
+                  <option>Loans</option>
+                  <option>Entertainment</option>
+                  <option>Others</option>
+                </select>
               </div>
+              <div className="mb-3">
+                <label className="form-label">Description</label>
+                <textarea
+                  name="description"
+                  value={form.description}
+                  onChange={handleChange}
+                  className="form-control"
+                  rows="2"
+                ></textarea>
+              </div>
+              <button type="submit" className="btn btn-primary me-2">
+                Add Expense
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() =>
+                  setForm({ amount: "", category: "", description: "", date: "" })
+                }
+              >
+                Clear
+              </button>
+            </form>
+          </motion.div>
+
+          {/* Monthly Budget */}
+          <motion.div
+            className="col-12 col-md-3 border rounded-3 p-4 m-3"
+            style={{ backgroundColor: labelColor }}
+            whileHover={{ scale: 1.03, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
+          >
+            <h4>Monthly Budget</h4>
+            <div className="mb-3">
+              <label className="form-label">Monthly Income</label>
+              <input
+                type="number"
+                className="form-control"
+                value={income}
+                onChange={(e) => setIncome(Number(e.target.value))}
+                placeholder="Enter income"
+              />
             </div>
-          </div>
+
+            <table className="table table-sm">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {expenses.map((exp, index) => (
+                  <tr key={index}>
+                    <td>{exp.category}</td>
+                    <td>${exp.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <p>
+              <strong>Total Expenses:</strong> ${totalExpenses}
+            </p>
+            <p>
+              <strong>Savings:</strong> ${savings}
+            </p>
+          </motion.div>
+
+          {/* Pie Chart */}
+          <motion.div
+            className="col-12 col-md-3 border rounded-3 p-4 m-3 position-relative"
+            style={{ backgroundColor: labelColor }}
+            whileHover={{ scale: 1.03, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
+          >
+            <h4 className="p-2 w-100 text-center">Spending Report</h4>
+            <div style={{ height: "250px" }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={chartData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    label
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+
+              {!isLoggedIn && (
+                <div
+                  className="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center rounded-3"
+                  style={{
+                    backdropFilter: "blur(4px)",
+                    backgroundColor: "rgba(255, 255, 255, 0.5)",
+                  }}
+                >
+                  <p className="text-muted mb-2">Unlock full report by logging in</p>
+                  <Link
+                    className="text-black text-decoration-underline"
+                    to="/login"
+                    state={{ from: location.pathname }}
+                  >
+                    Login here
+                  </Link>
+                </div>
+              )}
+            </div>
+          </motion.div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
