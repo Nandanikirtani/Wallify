@@ -10,9 +10,12 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import UserContext from "../context/UserContext";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Budget(props) {
   const location = useLocation();
+  const navigate = useNavigate();
   const textColor = props.mode === "dark" ? "#fffbeb" : "black";
   const cardColor = "#a47148"; // Same for both modes
   const butColor = props.mode === "light" ? "white" : "black";
@@ -21,8 +24,11 @@ export default function Budget(props) {
   const { user } = useContext(UserContext);
   const isLoggedIn = !!user;
 
-  const [income, setIncome] = useState();
+  const [income, setIncome] = useState(0);
   const [expenses, setExpenses] = useState([]);
+  const [savingsGoal, setSavingsGoal] = useState(0);
+  const [successMessage, setSuccessMessage] = useState("");
+
   const [form, setForm] = useState({
     amount: "",
     category: "",
@@ -35,20 +41,54 @@ export default function Budget(props) {
     e.preventDefault();
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  const totalExpenses = expenses.reduce(
+    (sum, exp) => sum + Number(exp.amount),
+    0
+  );
+
+  const saveBudget = async () => {
+    if (!isLoggedIn) return;
+
+    try {
+      await axios.post(
+        "http://localhost:5000/api/v1/budget",
+        {
+          userId: user._id,
+          income: Number(income) || 0,
+          expenses: totalExpenses, // <- totalExpenses is a single number
+          savingsGoal: Number(savingsGoal) || 0,
+        },
+        { withCredentials: true }
+      );
+      console.log("Budget saved successfully!");
+      setSuccessMessage("Budget saved successfully!"); // show message
+
+      // Hide the message after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+    } catch (err) {
+      console.error("Failed to save budget", err.response?.data || err.message);
+    }
+  };
 
   // Add expense
   const addExpense = (e) => {
     e.preventDefault();
     if (!form.amount || !form.category) return;
-    setExpenses([...expenses, form]);
+
+    const updatedExpenses = [...expenses, form];
+    setExpenses(updatedExpenses);
     setForm({ amount: "", category: "", description: "", date: "" });
   };
 
+  // Handle income change
+  const handleIncomeChange = (e) => {
+    setIncome(Number(e.target.value));
+  };
+
   // Calculate totals
-  const totalExpenses = expenses.reduce(
-    (sum, exp) => sum + Number(exp.amount),
-    0
-  );
+
   const savings = income - totalExpenses;
 
   const COLORS = [
@@ -214,7 +254,70 @@ export default function Budget(props) {
           <motion.div
             className="col-12 col-md-3 border rounded-3 p-4 m-3"
             style={{ backgroundColor: labelColor }}
-            whileHover={{ scale: 1.03, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
+            whileHover={{
+              scale: 1.03,
+              boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
+            }}
+          >
+            <h4>Monthly Budget</h4>
+
+            {/* Income input */}
+            <div className="mb-3">
+              <label className="form-label">Monthly Income</label>
+              <input
+                type="number"
+                className="form-control"
+                value={income}
+                onChange={handleIncomeChange}
+                placeholder="Enter income"
+              />
+            </div>
+
+            {/* Savings Goal input */}
+            <div className="mb-3">
+              <label className="form-label">Savings Goal</label>
+              <input
+                type="number"
+                className="form-control"
+                value={savingsGoal}
+                onChange={(e) => setSavingsGoal(Number(e.target.value))}
+                placeholder="Enter your savings target"
+              />
+            </div>
+
+            {/* Expenses Table */}
+            <table className="table table-sm">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {expenses.map((exp, index) => (
+                  <tr key={index}>
+                    <td>{exp.category}</td>
+                    <td>${exp.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <p>
+              <strong>Total Expenses:</strong> ${totalExpenses}
+            </p>
+            <p>
+              <strong>Savings:</strong> ${savings}
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="col-12 col-md-3 border rounded-3 p-4 m-3"
+            style={{ backgroundColor: labelColor }}
+            whileHover={{
+              scale: 1.03,
+              boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
+            }}
           >
             <h4>New Expense</h4>
             <form onSubmit={addExpense}>
@@ -274,7 +377,12 @@ export default function Budget(props) {
                 type="button"
                 className="btn btn-secondary"
                 onClick={() =>
-                  setForm({ amount: "", category: "", description: "", date: "" })
+                  setForm({
+                    amount: "",
+                    category: "",
+                    description: "",
+                    date: "",
+                  })
                 }
               >
                 Clear
@@ -283,53 +391,16 @@ export default function Budget(props) {
           </motion.div>
 
           {/* Monthly Budget */}
-          <motion.div
-            className="col-12 col-md-3 border rounded-3 p-4 m-3"
-            style={{ backgroundColor: labelColor }}
-            whileHover={{ scale: 1.03, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
-          >
-            <h4>Monthly Budget</h4>
-            <div className="mb-3">
-              <label className="form-label">Monthly Income</label>
-              <input
-                type="number"
-                className="form-control"
-                value={income}
-                onChange={(e) => setIncome(Number(e.target.value))}
-                placeholder="Enter income"
-              />
-            </div>
-
-            <table className="table table-sm">
-              <thead>
-                <tr>
-                  <th>Category</th>
-                  <th>Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                {expenses.map((exp, index) => (
-                  <tr key={index}>
-                    <td>{exp.category}</td>
-                    <td>${exp.amount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            <p>
-              <strong>Total Expenses:</strong> ${totalExpenses}
-            </p>
-            <p>
-              <strong>Savings:</strong> ${savings}
-            </p>
-          </motion.div>
+          {/* Monthly Budget */}
 
           {/* Pie Chart */}
           <motion.div
             className="col-12 col-md-3 border rounded-3 p-4 m-3 position-relative"
             style={{ backgroundColor: labelColor }}
-            whileHover={{ scale: 1.03, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
+            whileHover={{
+              scale: 1.03,
+              boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
+            }}
           >
             <h4 className="p-2 w-100 text-center">Spending Report</h4>
             <div style={{ height: "250px" }}>
@@ -364,7 +435,9 @@ export default function Budget(props) {
                     backgroundColor: "rgba(255, 255, 255, 0.5)",
                   }}
                 >
-                  <p className="text-muted mb-2">Unlock full report by logging in</p>
+                  <p className="text-muted mb-2">
+                    Unlock full report by logging in
+                  </p>
                   <Link
                     className="text-black text-decoration-underline"
                     to="/login"
@@ -377,6 +450,26 @@ export default function Budget(props) {
             </div>
           </motion.div>
         </div>
+      </div>
+      {successMessage && (
+        <div className="alert alert-success text-center mt-2">
+          {successMessage}
+        </div>
+      )}
+
+      <div className="text-center mt-3">
+        <button
+          className="btn btn-success"
+          onClick={() => {
+            if (!isLoggedIn) {
+              navigate("/login", { state: { from: location.pathname } });
+            } else {
+              saveBudget();
+            }
+          }}
+        >
+          Save Budget
+        </button>
       </div>
     </div>
   );

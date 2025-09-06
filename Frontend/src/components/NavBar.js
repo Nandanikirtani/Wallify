@@ -166,18 +166,13 @@ export default function NavBar(props) {
                 </Link>
               </li>
               <li>
-                <Link className="dropdown-item" to="/investement">
+                <Link className="dropdown-item" to="/investment">
                   Invest
                 </Link>
               </li>
               <li>
                 <Link className="dropdown-item" to="/learn">
                   Learning Hub
-                </Link>
-              </li>
-              <li>
-                <Link className="dropdown-item" to="#">
-                  Settings
                 </Link>
               </li>
               <li>
