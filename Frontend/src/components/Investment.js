@@ -53,7 +53,7 @@ export default function Investment(props) {
   };
 
   return (
-    <div className="container" style={{ color: textColor, marginTop: "100px" }}>
+    <div className="container mb-5" style={{ color: textColor, marginTop: "100px" }}>
       {/* Tabs */}
       <ul className="nav nav-pills mb-3 justify-content-center" id="investment-tabs">
         <li className="nav-item">

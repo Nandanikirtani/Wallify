@@ -81,7 +81,7 @@ const Profile = () => {
 
   return (
     <motion.div
-  className="container mt-5 pt-5 d-flex justify-content-center"
+  className="container mt-5 mb-5 pt-5 d-flex justify-content-center"
   initial={{ opacity: 0, y: 30 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.5 }}

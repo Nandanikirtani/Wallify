@@ -77,7 +77,7 @@ export default function Learn(props) {
   const fadeIn = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } };
 
   return (
-    <div className="container" style={{ marginTop: "100px", color: textColor }}>
+    <div className="container mb-5" style={{ marginTop: "100px", color: textColor }}>
       {/* Heading */}
       <motion.h1 className="text-center mb-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
         {heading}

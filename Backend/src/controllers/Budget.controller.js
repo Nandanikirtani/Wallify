@@ -36,17 +36,34 @@ export const saveOrUpdateBudget = async (req, res) => {
 };
 
 // Get dashboard summary by userId
+// Get dashboard summary by userId
 export const getDashboard = async (req, res) => {
   try {
     const { userId } = req.params;
 
     // Get the budget for this user
     const budget = await Budget.findOne({ userId });
-    if (!budget) return res.status(404).json({ message: "No budget found" });
 
     // Get user details
     const user = await User.findById(userId).select("fullName email");
-    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // If user does not exist
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!budget) {
+      // New user → send empty dashboard instead of 404
+      return res.status(200).json({
+        userName: user.fullName,
+        email: user.email,
+        totalBalance: 0,
+        monthlyIncome: 0,
+        monthlyExpenses: 0,
+        savingsGoal: 0,
+        spendingByCategory: [],
+      });
+    }
 
     const summary = {
       userName: user.fullName,

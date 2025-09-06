@@ -5,7 +5,7 @@ export default function Community(props) {
   const cardColor = props.mode === "light" ? "#4f000b" : "#b7e4c7";
   const butColor = props.mode === "light" ? "white" : "black";
   return (
-    <div className="container" style={{ marginTop: "100px", color: textColor }}>
+    <div className="container mb-5" style={{ marginTop: "100px", color: textColor }}>
       <div className="row mb-5 text-center">
         <div className="col">
           <h2>Welcome to the Wallify Community 🌸</h2>

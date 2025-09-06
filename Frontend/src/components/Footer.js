@@ -2,7 +2,13 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="text-white mt-5" style={{ backgroundColor: "#09343D" }}>
+    <footer
+      className="text-white"
+      style={{
+        backgroundColor: "#09343D",
+        marginTop: "auto", // push footer down
+      }}
+    >
       <div className="container py-5">
         <div className="row">
           {/* Logo and Description */}

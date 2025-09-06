@@ -50,6 +50,15 @@ export default function Budget(props) {
     if (!isLoggedIn) return;
 
     try {
+       const spendingByCategory = expenses.reduce((acc, exp) => {
+      const found = acc.find(item => item.category === exp.category);
+      if (found) {
+        found.amount += Number(exp.amount);
+      } else {
+        acc.push({ category: exp.category, amount: Number(exp.amount) });
+      }
+      return acc;
+    }, []);
       await axios.post(
         "http://localhost:5000/api/v1/budget",
         {
@@ -57,6 +66,7 @@ export default function Budget(props) {
           income: Number(income) || 0,
           expenses: totalExpenses, // <- totalExpenses is a single number
           savingsGoal: Number(savingsGoal) || 0,
+          spendingByCategory: spendingByCategory,
         },
         { withCredentials: true }
       );
@@ -457,7 +467,7 @@ export default function Budget(props) {
         </div>
       )}
 
-      <div className="text-center mt-3">
+      <div className="text-center mt-3 mb-5">
         <button
           className="btn btn-success"
           onClick={() => {

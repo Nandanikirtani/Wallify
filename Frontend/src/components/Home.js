@@ -285,7 +285,7 @@ export default function Home(props) {
 
       {/* SUBSCRIBE SECTION */}
       <motion.div
-        className="container rounded-5 p-5 m-auto mt-5 text-center"
+        className="container rounded-5 p-5 m-auto mt-5 mb-5 text-center"
         style={{ color: butColor, backgroundColor: cardColor }}
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
