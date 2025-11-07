@@ -1,0 +1,35 @@
+services:
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: wallify-backend
+    image: wallify-backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./Backend/.env
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: wallify-frontend
+    image: wallify-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo:6
+    container_name: wallify-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

@@ -80,7 +80,7 @@ function App() {
   }, [mode]);
 
   return (
-    <BrowserRouter basename="/Wallify">
+    <BrowserRouter basename={process.env.REACT_APP_BASENAME}>
       <UserProvider>
         <AppContent mode={mode} toggleMode={toggleMode} />
       </UserProvider>
